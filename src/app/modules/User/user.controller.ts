@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { UserService } from './user.service';
+import { UserServices } from './user.service';
 
 const createBuyer = catchAsync(async (req, res) => {
   const buyerData = req?.body?.buyer;
-  const result = await UserService.createBuyerIntoDB(
+  const result = await UserServices.createBuyerIntoDB(
     req?.body?.password,
     buyerData,
   );
@@ -20,7 +20,7 @@ const createBuyer = catchAsync(async (req, res) => {
 
 const createAdmin = catchAsync(async (req, res) => {
   const adminData = req?.body?.admin;
-  const result = await UserService.createAdminIntoDB(
+  const result = await UserServices.createAdminIntoDB(
     req?.body?.password,
     adminData,
   );

@@ -88,7 +88,7 @@ const createAdminIntoDB = async (password: string, payload: TBuyer) => {
   }
 };
 
-export const UserService = {
+export const UserServices = {
   createBuyerIntoDB,
   createAdminIntoDB,
 };

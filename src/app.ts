@@ -6,9 +6,14 @@ import router from './app/routes';
 
 const app: Application = express();
 
+const corsOptions = {
+  origin: 'http://localhost:5173', // আপনার React অ্যাপের URL
+  credentials: true, // আপনাকে ক্রেডেনশিয়াল অনুমতি দিতে হবে
+};
+
 /// parsers
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/api/v1', router);
 
