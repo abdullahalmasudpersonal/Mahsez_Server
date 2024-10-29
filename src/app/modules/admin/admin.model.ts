@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { TAdmin } from './admin.interface';
+import { UserModel } from '../User/user.interface';
 
 const adminSchema = new Schema<TAdmin>(
   {

@@ -1,5 +1,6 @@
 import { User } from './user.model';
 
+/////////////////////// buyer id generate /////////////////////////
 const findLastBuyerId = async () => {
   const lastStudent = await User.findOne(
     {
@@ -32,7 +33,7 @@ export const generatebuyerId = async () => {
   return buyerId;
 };
 
-/////////admin
+/////////admin id genarate //////////////////////////
 const findLastAdminId = async () => {
   const lastAdmin = await User.findOne(
     {

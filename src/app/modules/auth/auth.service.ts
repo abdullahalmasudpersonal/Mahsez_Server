@@ -3,8 +3,7 @@ import AppError from '../../errors/AppError';
 import { User } from '../User/user.model';
 import { TLoginUser } from './auth.interface';
 import config from '../../config';
-import { createToken } from '../../utils/auth.utils';
-
+import { createToken } from './auth.utils';
 const loginUserIntoDB = async (payload: TLoginUser) => {
   const user = await User.isUserExistsByEmail(payload.email);
 
@@ -27,6 +26,7 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
 
   const jwtPayload = {
     userId: user.id,
+    email: user.email,
     role: user.role,
   };
 
