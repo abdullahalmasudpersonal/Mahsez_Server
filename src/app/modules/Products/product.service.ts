@@ -5,18 +5,42 @@ import { Product } from './product.model';
 import { generateProductId } from './product.utils';
 import mongoose from 'mongoose';
 import { Request } from 'express';
+import { IUploadFile } from '../../interface/file';
+import { FileUploadHelper } from '../../utils/fileUploadHelper';
 
 const createProductIntoDB = async (req: Request) => {
   const productData = req.body;
   const prodCreator = req.user?.email;
   const produtId = await generateProductId();
 
-  productData.id = produtId;
+  const existingPorduct = await Product.findOne({ name: req?.body?.name });
+
+  if (existingPorduct) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Alrady exist this product!');
+  }
+
+  //////////// Upload moultile file
+  const files = req.files as unknown;
+  let uploadFiles: IUploadFile[] = [];
+
+  if (Array.isArray(files)) {
+    uploadFiles = files as IUploadFile[];
+  } else if (files && typeof files === 'object') {
+    uploadFiles = Object.values(files).flat() as IUploadFile[];
+  }
+
+  productData.productId = produtId;
   productData.prodCreator = prodCreator;
 
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
+
+    if (uploadFiles) {
+      const uploadedProfileImage =
+        await FileUploadHelper.uploadToCloudinary(uploadFiles);
+      req.body.image = uploadedProfileImage.map((img) => img.secure_url);
+    }
 
     const newProdcut = await Product.create([productData], { session });
     if (!newProdcut?.length) {

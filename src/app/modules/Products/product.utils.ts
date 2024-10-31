@@ -5,7 +5,7 @@ const findLastProductId = async () => {
   const lastProduct = await Product.findOne(
     {},
     {
-      id: 1,
+      productId: 1,
       _id: 0,
     },
   )
@@ -14,7 +14,7 @@ const findLastProductId = async () => {
     })
     .lean();
 
-  return lastProduct?.id ? lastProduct.id : undefined;
+  return lastProduct?.productId ? lastProduct.productId : undefined;
 };
 
 // নতুন প্রডাক্ট আইডি তৈরির জন্য ফাংশন

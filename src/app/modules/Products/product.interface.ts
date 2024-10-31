@@ -1,14 +1,14 @@
 import { Model, Types } from 'mongoose';
 
 export type TProduct = {
-  id: string;
+  productId: string;
   mainCategory?: string;
   category?: string;
   subCategory?: string;
   name: string;
   brand?: string;
   availableQuantity?: number;
-  stockStatus?: 'inStock' | 'outOfStock';
+  stockStatus?: 'In Stock' | 'Out Of Stock';
   price: number;
   regularPrice: number;
   offerPrice?: number;

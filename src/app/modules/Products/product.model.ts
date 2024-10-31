@@ -3,7 +3,7 @@ import { ProductModel, TProduct } from './product.interface';
 
 const productSchema = new Schema<TProduct, ProductModel>(
   {
-    id: {
+    productId: {
       type: String,
       required: true,
       unique: true,
