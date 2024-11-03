@@ -13,6 +13,8 @@ const createProductIntoDB = async (req: Request) => {
   const prodCreator = req.user?.email;
   const produtId = await generateProductId();
 
+  console.log(productData, 'prodata');
+
   const existingPorduct = await Product.findOne({ name: req?.body?.name });
 
   if (existingPorduct) {
@@ -60,7 +62,15 @@ const getProductIntoDB = async () => {
   return allProduct;
 };
 
+const getSingleProductIntoDB = async (req: Request) => {
+  const _id = req.params?.id;
+
+  const singleProduct = await Product.findById({ _id: _id });
+  return singleProduct;
+};
+
 export const ProdcutServices = {
   createProductIntoDB,
   getProductIntoDB,
+  getSingleProductIntoDB,
 };

@@ -7,8 +7,8 @@ import router from './app/routes';
 const app: Application = express();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // আপনার React অ্যাপের URL
-  credentials: true, // আপনাকে ক্রেডেনশিয়াল অনুমতি দিতে হবে
+  origin: ['https://mahsez.vercel.app', 'http://localhost:5173'],
+  credentials: true,
 };
 
 /// parsers

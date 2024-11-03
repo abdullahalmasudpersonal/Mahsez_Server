@@ -10,15 +10,15 @@ const productSchema = new Schema<TProduct, ProductModel>(
     },
     mainCategory: {
       type: String,
-      required: false,
+      required: true,
     },
     category: {
       type: String,
-      required: false,
+      required: true,
     },
     subCategory: {
       type: String,
-      required: false,
+      required: true,
     },
     name: {
       type: String,
@@ -27,16 +27,16 @@ const productSchema = new Schema<TProduct, ProductModel>(
     },
     brand: {
       type: String,
-      required: false,
+      required: true,
     },
     availableQuantity: {
       type: Number,
-      required: false,
+      required: true,
     },
     stockStatus: {
       type: String,
       enum: ['In Stock', 'Out Of Stock'],
-      required: false,
+      required: true,
     },
     price: {
       type: Number,
@@ -52,11 +52,11 @@ const productSchema = new Schema<TProduct, ProductModel>(
     },
     size: {
       type: String,
-      required: false,
+      required: true,
     },
     features: {
       type: String,
-      required: false,
+      required: true,
     },
     features2: {
       type: [String],
@@ -64,7 +64,7 @@ const productSchema = new Schema<TProduct, ProductModel>(
     },
     description: {
       type: String,
-      required: false,
+      required: true,
     },
     description2: {
       type: [String],

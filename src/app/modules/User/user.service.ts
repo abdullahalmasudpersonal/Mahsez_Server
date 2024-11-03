@@ -88,7 +88,23 @@ const createAdminIntoDB = async (password: string, payload: TBuyer) => {
   }
 };
 
+const getMeIntoDB = async (userId: string, role: string) => {
+  let result = null;
+  if (role === 'buyer') {
+    result = await Buyer.findOne({ id: userId }).populate('user');
+  }
+  if (role === 'admin') {
+    result = await Admin.findOne({ id: userId }).populate('user');
+  }
+  if (role === 'superAdmin') {
+    result = await Admin.findOne({ id: userId }).populate('user');
+  }
+
+  return result;
+};
+
 export const UserServices = {
   createBuyerIntoDB,
   createAdminIntoDB,
+  getMeIntoDB,
 };
