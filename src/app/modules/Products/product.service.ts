@@ -13,8 +13,6 @@ const createProductIntoDB = async (req: Request) => {
   const prodCreator = req.user?.email;
   const produtId = await generateProductId();
 
-  console.log(productData, 'prodata');
-
   const existingPorduct = await Product.findOne({ name: req?.body?.name });
 
   if (existingPorduct) {

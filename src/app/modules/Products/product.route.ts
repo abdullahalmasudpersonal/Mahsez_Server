@@ -11,11 +11,9 @@ router.post(
   auth(USER_ROLE.admin),
   FileUploadHelper.upload.array('files', 10),
   (req: Request, res: Response, next: NextFunction) => {
-    console.log(req?.files, 'prodata');
     req.body = JSON.parse(req.body.data);
     return ProductController.createProduct(req, res, next);
   },
-  // ProductController.createProduct,
 );
 
 router.get('/', ProductController.getAllProduct);

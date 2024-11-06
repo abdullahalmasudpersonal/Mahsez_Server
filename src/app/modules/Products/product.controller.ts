@@ -7,7 +7,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
-  console.log(req?.body, 'prodata');
   const result = await ProdcutServices.createProductIntoDB(req);
 
   sendResponse(res, {
