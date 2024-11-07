@@ -20,4 +20,6 @@ router.get('/', ProductController.getAllProduct);
 
 router.get('/:id', ProductController.getSingleProduct);
 
+router.delete('/:id', ProductController.deleteProduct);
+
 export const ProductRoutes = router;

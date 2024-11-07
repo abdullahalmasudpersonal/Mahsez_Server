@@ -67,8 +67,15 @@ const getSingleProductIntoDB = async (req: Request) => {
   return singleProduct;
 };
 
+const deleteProductIntoDB = async (req: Request) => {
+  const productId = req?.params?.id;
+  const result = await Product.deleteOne({ _id: productId });
+  return result;
+};
+
 export const ProdcutServices = {
   createProductIntoDB,
   getProductIntoDB,
   getSingleProductIntoDB,
+  deleteProductIntoDB,
 };
