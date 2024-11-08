@@ -67,7 +67,7 @@ const uploadToCloudinary = async (
           (error: Error, result: ICloudinaryResponse) => {
             try {
               if (fs.existsSync(file.path)) {
-                fs.unlinkSync(file.path); // ফাইল মুছে ফেলার চেষ্টা
+                fs.unlinkSync(file.path);
               }
             } catch (unlinkError) {
               console.error('Error while deleting the file:', unlinkError);

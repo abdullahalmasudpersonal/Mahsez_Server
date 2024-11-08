@@ -7,6 +7,9 @@ import httpStatus from 'http-status';
 import { TBuyer } from '../buyer/buyer.interface';
 import { Buyer } from '../buyer/buyer.model';
 import { Admin } from '../admin/admin.model';
+import { Request } from 'express';
+import { IUploadFile } from '../../interface/file';
+import { USER_ROLE } from './user.constant';
 
 const createBuyerIntoDB = async (password: string, payload: TBuyer) => {
   const existsUser = await User.findOne({ email: payload?.email });
@@ -103,8 +106,39 @@ const getMeIntoDB = async (userId: string, role: string) => {
   return result;
 };
 
+const updateMyProfileIntoDB = async (req: Request) => {
+  const user = req?.user;
+  const userData = await User.findOne({ email: user?.email });
+  if (!userData) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User does not exists!');
+  }
+  const file = req.file as IUploadFile;
+  req.body.profileImg = file?.path;
+
+  let profileData;
+
+  if (userData?.role === USER_ROLE.superAdmin) {
+    profileData = await Admin.findOneAndUpdate(
+      { email: userData?.email },
+      { $set: req.body },
+    );
+  } else if (userData?.role === USER_ROLE.admin) {
+    profileData = await Admin.findOneAndUpdate(
+      { email: userData?.email },
+      { $set: req.body },
+    );
+  } else if (userData?.role === USER_ROLE.buyer) {
+    profileData = await Buyer.findOneAndUpdate(
+      { email: userData?.email },
+      { $set: req.body },
+    );
+  }
+  return profileData;
+};
+
 export const UserServices = {
   createBuyerIntoDB,
   createAdminIntoDB,
   getMeIntoDB,
+  updateMyProfileIntoDB,
 };

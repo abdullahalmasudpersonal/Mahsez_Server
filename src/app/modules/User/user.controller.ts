@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
+import { Request, Response } from 'express';
 
 const createBuyer = catchAsync(async (req, res) => {
   const buyerData = req?.body?.buyer;
@@ -45,8 +46,20 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
+const updateMyProfile = catchAsync(async (req, res) => {
+  const result = await UserServices.updateMyProfileIntoDB(req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Update my profile successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   createBuyer,
   createAdmin,
   getMe,
+  updateMyProfile,
 };
