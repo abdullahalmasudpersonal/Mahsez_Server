@@ -14,6 +14,28 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getBuyerOrder = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrderServices.getBuyerOrderIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get buyer order Successfully',
+    data: result,
+  });
+});
+
+const GetAllorder = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrderServices.getAllOrderIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'GEt all order Successfully',
+    data: result,
+  });
+});
+
 export const OrderController = {
   createOrder,
+  getBuyerOrder,
+  GetAllorder,
 };

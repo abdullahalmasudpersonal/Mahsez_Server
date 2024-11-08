@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import mongoose from 'mongoose';
-import { Order } from './order.mode';
+import { Order } from './order.model';
 import { generateOrderId } from './order.utils';
 import { Payment } from '../payment/payment.model';
 import { TPayment } from '../payment/payment.interface';
@@ -19,8 +19,9 @@ const createOrderIntoDB = async (req: Request) => {
 
     orderData.orderId = await generateOrderId();
     orderData.userId = user.userId;
+
     const createOrder = await Order.create([orderData], { session });
-    console.log(createOrder);
+
     if (!createOrder?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create order!');
     }
@@ -47,6 +48,18 @@ const createOrderIntoDB = async (req: Request) => {
   }
 };
 
+const getBuyerOrderIntoDB = async (req: Request) => {
+  const { email } = req?.user;
+
+  return await Order.find({ email: email }).sort({ createdAt: -1 });
+};
+
+const getAllOrderIntoDB = async (req: Request) => {
+  return await Order.find().sort({ createdAt: -1 });
+};
+
 export const OrderServices = {
   createOrderIntoDB,
+  getBuyerOrderIntoDB,
+  getAllOrderIntoDB,
 };

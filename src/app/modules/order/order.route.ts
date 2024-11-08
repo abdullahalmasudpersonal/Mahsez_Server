@@ -11,4 +11,16 @@ router.post(
   OrderController.createOrder,
 );
 
+router.get(
+  '/buyer-order',
+  auth(USER_ROLE.buyer, USER_ROLE.admin),
+  OrderController.getBuyerOrder,
+);
+
+router.get(
+  '/',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  OrderController.GetAllorder,
+);
+
 export const OrderRoutes = router;

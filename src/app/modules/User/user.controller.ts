@@ -52,7 +52,7 @@ const updateMyProfile = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Update my profile successfully',
+    message: 'Update your profile successfully',
     data: result,
   });
 });

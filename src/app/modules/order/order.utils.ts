@@ -1,4 +1,4 @@
-import { Order } from './order.mode';
+import { Order } from './order.model';
 
 const findLastOrderId = async () => {
   const lastOrder = await Order.findOne(
