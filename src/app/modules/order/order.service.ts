@@ -7,6 +7,7 @@ import { TPayment } from '../payment/payment.interface';
 import generateTransactionId from '../payment/payment.service';
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
+import { Product } from '../Products/product.model';
 
 const createOrderIntoDB = async (req: Request) => {
   const orderData = req?.body;
@@ -24,6 +25,20 @@ const createOrderIntoDB = async (req: Request) => {
 
     if (!createOrder?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create order!');
+    }
+
+    ///////// Updae product quantity
+    const [productOrderQuantity] = createOrder;
+    const orderItems = productOrderQuantity?.items;
+    // Loop through each item to update product quantity
+    for (const item of orderItems) {
+      const { product_id, quantity } = item;
+      // Update the product quantity
+      await Product.findByIdAndUpdate(
+        product_id,
+        { $inc: { availableQuantity: -quantity } },
+        { session, new: true },
+      );
     }
 
     paymentData.transactionId = await generateTransactionId();

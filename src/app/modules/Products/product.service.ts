@@ -35,18 +35,15 @@ const createProductIntoDB = async (req: Request) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-
     if (uploadFiles) {
       const uploadedProfileImage =
         await FileUploadHelper.uploadToCloudinary(uploadFiles);
       req.body.image = uploadedProfileImage.map((img) => img.secure_url);
     }
-
     const newProdcut = await Product.create([productData], { session });
     if (!newProdcut?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create Product!');
     }
-
     await session.commitTransaction();
     await session.endSession();
     return newProdcut;
