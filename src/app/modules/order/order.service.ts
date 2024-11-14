@@ -4,10 +4,10 @@ import { Order } from './order.model';
 import { generateOrderId } from './order.utils';
 import { Payment } from '../payment/payment.model';
 import { TPayment } from '../payment/payment.interface';
-import generateTransactionId from '../payment/payment.service';
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { Product } from '../Products/product.model';
+import generateTransactionId from '../payment/payment.utils';
 
 const createOrderIntoDB = async (req: Request) => {
   const orderData = req?.body;

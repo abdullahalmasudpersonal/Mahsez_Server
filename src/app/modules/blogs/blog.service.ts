@@ -20,7 +20,7 @@ const createBlogIntoDB = async (req: Request) => {
 };
 
 const getBlogsIntoDB = async () => {
-  return await Blog.find();
+  return await Blog.find().sort({ createdAt: -1 });
 };
 
 const getSingleBlogIntoDB = async (req: Request) => {

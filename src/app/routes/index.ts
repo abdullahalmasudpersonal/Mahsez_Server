@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { ProductRoutes } from '../modules/Products/product.route';
 import { OrderRoutes } from '../modules/order/order.route';
 import { BlogRoutes } from '../modules/blogs/blog.route';
+import { PyamentRoutes } from '../modules/payment/payment.route';
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/blog',
     route: BlogRoutes,
+  },
+  {
+    path: '/payment',
+    route: PyamentRoutes,
   },
 ];
 

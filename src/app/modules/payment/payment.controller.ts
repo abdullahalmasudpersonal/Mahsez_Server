@@ -1,0 +1,19 @@
+import { Request, Response } from 'express';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
+import { PaymentServices } from './payment.service';
+
+const getBuyerPayment = catchAsync(async (req: Request, res: Response) => {
+  const result = await PaymentServices.getBuyerPaymentIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Order Placed Successfully',
+    data: result,
+  });
+});
+
+export const PaymentController = {
+  getBuyerPayment,
+};
