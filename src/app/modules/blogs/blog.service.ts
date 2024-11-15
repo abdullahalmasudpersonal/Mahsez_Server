@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { Blog } from './blog.modal';
 import AppError from '../../errors/AppError';
 import { IUploadFile } from '../../interface/file';
+import { Admin } from '../admin/admin.model';
 
 const createBlogIntoDB = async (req: Request) => {
   const user = req.user;
@@ -20,7 +21,39 @@ const createBlogIntoDB = async (req: Request) => {
 };
 
 const getBlogsIntoDB = async () => {
-  return await Blog.find().sort({ createdAt: -1 });
+  const blogs = await Blog.aggregate([
+    {
+      $lookup: {
+        from: 'admins',
+        localField: 'writer',
+        foreignField: 'email',
+        as: 'writerInfo',
+      },
+    },
+    {
+      $unwind: {
+        path: '$writerInfo',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        description: 1,
+        description2: 1,
+        features2: 1,
+        image: 1,
+        isDeleted: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        writer: {
+          $ifNull: ['$writerInfo.name', '$writer'],
+        },
+      },
+    },
+  ]);
+  return blogs;
 };
 
 const getSingleBlogIntoDB = async (req: Request) => {
@@ -31,6 +64,8 @@ const getSingleBlogIntoDB = async (req: Request) => {
 const updateSingleBlogIntoDB = async (req: Request) => {
   const blogId = req.params.id;
   const updateData = req.body;
+  const file = req.file as IUploadFile;
+  updateData.image = file?.path;
   return await Blog.findByIdAndUpdate({ _id: blogId }, { $set: updateData });
 };
 

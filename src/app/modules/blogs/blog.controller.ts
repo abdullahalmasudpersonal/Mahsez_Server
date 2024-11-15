@@ -34,6 +34,7 @@ const getSingleBlog = catchAsync(async (req, res) => {
 });
 
 const updateSingleBlog = catchAsync(async (req, res) => {
+  console.log(req.file, 'data');
   const result = await BlogServices.updateSingleBlogIntoDB(req);
   sendResponse(res, {
     statusCode: httpStatus.OK,

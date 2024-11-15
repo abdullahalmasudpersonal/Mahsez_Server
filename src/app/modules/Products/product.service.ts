@@ -53,7 +53,7 @@ const createProductIntoDB = async (req: Request) => {
 };
 
 const getProductIntoDB = async () => {
-  const allProduct = await Product.find();
+  const allProduct = await Product.find().sort({ createdAt: -1 });
   return allProduct;
 };
 
