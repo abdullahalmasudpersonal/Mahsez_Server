@@ -59,9 +59,39 @@ const getProductIntoDB = async () => {
 
 const getSingleProductIntoDB = async (req: Request) => {
   const _id = req.params?.id;
-
   const singleProduct = await Product.findById({ _id: _id });
   return singleProduct;
+};
+
+const updateProductIntoDB = async (req: Request) => {
+  const productId = req.params.id;
+  const updateData = JSON.parse(req.body.data);
+  const existingFiles = req.body.existingFiles || [];
+  const newFiles = req.files as unknown;
+  let uploadFiles: IUploadFile[] = [];
+
+  if (Array.isArray(newFiles)) {
+    uploadFiles = newFiles as IUploadFile[];
+  } else if (newFiles && typeof newFiles === 'object') {
+    uploadFiles = Object.values(newFiles).flat() as IUploadFile[];
+  }
+
+  if (uploadFiles.length > 0) {
+    const uploadedImages =
+      await FileUploadHelper.uploadToCloudinary(uploadFiles);
+    const newImageURLs = uploadedImages.map((img) => img.secure_url);
+
+    updateData.image = [...existingFiles, ...newImageURLs];
+  } else {
+    updateData.image = existingFiles;
+  }
+
+  console.log(existingFiles, newFiles, updateData, 'product data');
+
+  return await Product.findByIdAndUpdate(
+    { _id: productId },
+    { $set: updateData },
+  );
 };
 
 const deleteProductIntoDB = async (req: Request) => {
@@ -74,5 +104,6 @@ export const ProdcutServices = {
   createProductIntoDB,
   getProductIntoDB,
   getSingleProductIntoDB,
+  updateProductIntoDB,
   deleteProductIntoDB,
 };

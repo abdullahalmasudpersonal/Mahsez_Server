@@ -39,6 +39,17 @@ const getSingleProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateProduct = catchAsync(async (req: Request, res: Response) => {
+  // console.log(req.body, 'data');
+  const result = await ProdcutServices.updateProductIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Update Product Successfully',
+    data: result,
+  });
+});
+
 const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ProdcutServices.deleteProductIntoDB(req);
 
@@ -54,5 +65,6 @@ export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  updateProduct,
   deleteProduct,
 };

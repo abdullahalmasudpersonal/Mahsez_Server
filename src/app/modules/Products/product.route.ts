@@ -20,6 +20,18 @@ router.get('/', ProductController.getAllProduct);
 
 router.get('/:id', ProductController.getSingleProduct);
 
+router.patch(
+  '/:id',
+  auth(USER_ROLE.admin),
+  FileUploadHelper.upload.array('files', 10),
+  (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body, 'reqbody');
+    // req.body = JSON.parse(req.body);
+    // console.log(req.body, 'parse reqbody');
+    return ProductController.updateProduct(req, res, next);
+  },
+);
+
 router.delete('/:id', ProductController.deleteProduct);
 
 export const ProductRoutes = router;

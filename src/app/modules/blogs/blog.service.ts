@@ -71,8 +71,6 @@ const updateSingleBlogIntoDB = async (req: Request) => {
 
 const deleteBlogIntoDB = async (req: Request) => {
   const blogId = req.params.id;
-  console.log(blogId);
-
   return await Blog.deleteOne({ _id: blogId });
 };
 export const BlogServices = {
