@@ -74,6 +74,10 @@ const productSchema = new Schema<TProduct, ProductModel>(
       type: [String],
       required: false,
     },
+    totalOrder: {
+      type: Number,
+      required: false,
+    },
     prodCreator: {
       type: String,
       required: [true, 'UserId is Required'],

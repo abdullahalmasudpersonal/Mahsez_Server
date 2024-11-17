@@ -23,4 +23,10 @@ router.get(
   OrderController.GetAllorder,
 );
 
+router.get(
+  '/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.buyer),
+  OrderController.GetSingleOrder,
+);
+
 export const OrderRoutes = router;

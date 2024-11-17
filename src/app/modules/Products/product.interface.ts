@@ -18,6 +18,7 @@ export type TProduct = {
   description: string;
   description2?: string[];
   image?: string[];
+  totalOrder?: number;
   prodCreator: string;
   isDeleted: boolean;
 };

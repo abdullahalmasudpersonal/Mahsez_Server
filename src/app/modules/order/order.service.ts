@@ -65,7 +65,6 @@ const createOrderIntoDB = async (req: Request) => {
 
 const getBuyerOrderIntoDB = async (req: Request) => {
   const { email } = req?.user;
-
   return await Order.find({ email: email }).sort({ createdAt: -1 });
 };
 
@@ -73,8 +72,14 @@ const getAllOrderIntoDB = async (req: Request) => {
   return await Order.find().sort({ createdAt: -1 });
 };
 
+const getSingleOrderIntoDB = async (req: Request) => {
+  const _id = req.params.id;
+  return await Order.findOne({ _id });
+};
+
 export const OrderServices = {
   createOrderIntoDB,
   getBuyerOrderIntoDB,
   getAllOrderIntoDB,
+  getSingleOrderIntoDB,
 };
