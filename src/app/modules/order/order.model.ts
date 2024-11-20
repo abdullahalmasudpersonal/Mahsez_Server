@@ -97,6 +97,38 @@ const orderSchema = new Schema<TOrder>(
       type: Number,
       required: true,
     },
+    confirmOrder: {
+      type: Boolean,
+      default: false,
+    },
+    confirmOrderDate: {
+      type: Date,
+      required: false,
+    },
+    deliveredOrder: {
+      type: Boolean,
+      default: false,
+    },
+    deliveredOrderDate: {
+      type: Date,
+      required: false,
+    },
+    cancelOrder: {
+      type: Boolean,
+      default: false,
+    },
+    cancelOrderDate: {
+      type: Date,
+      required: false,
+    },
+    fakeOrder: {
+      type: Boolean,
+      default: false,
+    },
+    fakeOrderDate: {
+      type: Date,
+      required: false,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

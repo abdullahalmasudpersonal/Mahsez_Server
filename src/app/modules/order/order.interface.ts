@@ -24,6 +24,14 @@ export type TOrder = {
   deliveryCharge: number;
   subTotal: number;
   grandTotal: number;
+  confirmOrder: boolean;
+  confirmOrderDate: Date;
+  deliveredOrder: boolean;
+  deliveredOrderDate: Date;
+  cancelOrder: boolean;
+  cancelOrderDate: Date;
+  fakeOrder: boolean;
+  fakeOrderDate: Date;
   isDeleted: boolean;
 };
 

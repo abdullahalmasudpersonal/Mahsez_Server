@@ -29,7 +29,7 @@ const GetAllorder = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'GEt all order Successfully',
+    message: 'Get all order Successfully',
     data: result,
   });
 });
@@ -39,7 +39,17 @@ const GetSingleOrder = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'GEt single order Successfully',
+    message: 'Get single order Successfully',
+    data: result,
+  });
+});
+
+const updateOrderstatus = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrderServices.updateOrderStatusIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Update order status Successfully',
     data: result,
   });
 });
@@ -49,4 +59,5 @@ export const OrderController = {
   getBuyerOrder,
   GetAllorder,
   GetSingleOrder,
+  updateOrderstatus,
 };

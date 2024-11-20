@@ -14,4 +14,5 @@ export type TBuyer = {
   permanentAddress: string;
   profileImg?: string;
   isDeleted: boolean;
+  createdAt?: string;
 };

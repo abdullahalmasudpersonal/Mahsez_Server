@@ -86,8 +86,6 @@ const updateProductIntoDB = async (req: Request) => {
     updateData.image = existingFiles;
   }
 
-  console.log(existingFiles, newFiles, updateData, 'product data');
-
   return await Product.findByIdAndUpdate(
     { _id: productId },
     { $set: updateData },

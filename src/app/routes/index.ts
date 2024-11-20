@@ -5,6 +5,8 @@ import { ProductRoutes } from '../modules/Products/product.route';
 import { OrderRoutes } from '../modules/order/order.route';
 import { BlogRoutes } from '../modules/blogs/blog.route';
 import { PyamentRoutes } from '../modules/payment/payment.route';
+import { BuyerRoutes } from '../modules/buyer/buyer.route';
+import { AdminRoutes } from '../modules/admin/admin.route';
 
 const router = Router();
 
@@ -32,6 +34,14 @@ const moduleRoutes = [
   {
     path: '/payment',
     route: PyamentRoutes,
+  },
+  {
+    path: '/admin',
+    route: AdminRoutes,
+  },
+  {
+    path: '/buyer',
+    route: BuyerRoutes,
   },
 ];
 

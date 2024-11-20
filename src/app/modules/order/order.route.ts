@@ -29,4 +29,10 @@ router.get(
   OrderController.GetSingleOrder,
 );
 
+router.patch(
+  '/update-status/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  OrderController.updateOrderstatus,
+);
+
 export const OrderRoutes = router;

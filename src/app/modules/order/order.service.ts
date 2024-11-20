@@ -77,9 +77,50 @@ const getSingleOrderIntoDB = async (req: Request) => {
   return await Order.findOne({ _id });
 };
 
+const updateOrderStatusIntoDB = async (req: Request) => {
+  const orderId = req.params.id;
+  const currentDate = new Date();
+  const updateOrderStatusData = req.body;
+
+  const updateData: any = {};
+
+  // console.log(updateData);
+
+  try {
+    const session = await mongoose.startSession();
+
+    if (updateOrderStatusData?.confirmOrder) {
+      updateData.confirmOrder = true;
+      updateData.confirmOrderDate = currentDate;
+      updateData.orderStatus = 'Confirm';
+    } else if (updateOrderStatusData?.deliveredOrder) {
+      updateData.deliveredOrder = true;
+      updateData.deliveredOrderDate = currentDate;
+      updateData.orderStatus = 'Delivered';
+    } else if (updateOrderStatusData?.cancelOrder) {
+      updateData.cancelOrder = true;
+      updateData.cancelOrderDate = currentDate;
+      updateData.orderStatus = 'Canceled';
+    } else if (updateOrderStatusData?.fakeOrder) {
+      updateData.fakeOrder = true;
+      updateData.fakeOrderDate = currentDate;
+      updateData.orderStatus = 'Fake';
+    }
+    const update = Order.updateOne({ _id: orderId }, { $set: updateData });
+
+    await session.commitTransaction();
+    await session.endSession();
+    return update;
+  } catch (error) {}
+
+  const update = Order.updateOne({ _id: orderId }, { $set: updateData });
+  return update;
+};
+
 export const OrderServices = {
   createOrderIntoDB,
   getBuyerOrderIntoDB,
   getAllOrderIntoDB,
   getSingleOrderIntoDB,
+  updateOrderStatusIntoDB,
 };
