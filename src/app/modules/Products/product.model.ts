@@ -74,7 +74,7 @@ const productSchema = new Schema<TProduct, ProductModel>(
       type: [String],
       required: false,
     },
-    totalOrder: {
+    soldQuantity: {
       type: Number,
       required: false,
     },

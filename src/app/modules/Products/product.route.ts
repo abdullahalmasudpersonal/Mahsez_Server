@@ -18,6 +18,8 @@ router.post(
 
 router.get('/', ProductController.getAllProduct);
 
+router.get('/search-filter', ProductController.getAllProductWithSearchFilter);
+
 router.get('/:id', ProductController.getSingleProduct);
 
 router.patch(

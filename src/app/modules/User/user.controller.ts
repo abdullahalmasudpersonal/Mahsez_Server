@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 
 const createBuyer = catchAsync(async (req, res) => {
   const buyerData = req?.body?.buyer;
-  const result = await UserServices.createBuyerIntoDB(
+  const [result] = await UserServices.createBuyerIntoDB(
     req?.body?.password,
     buyerData,
   );

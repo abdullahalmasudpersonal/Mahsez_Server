@@ -1,10 +1,8 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { ProdcutServices } from './product.service';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import config from '../../config';
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ProdcutServices.createProductIntoDB(req);
@@ -28,6 +26,22 @@ const getAllProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllProductWithSearchFilter: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await ProdcutServices.getProductsWithSearchFilterIntoDB(
+      req.query,
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Get All Product Successfully',
+      meta: result.meta,
+      data: result.result,
+    });
+  },
+);
+
 const getSingleProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ProdcutServices.getSingleProductIntoDB(req);
 
@@ -40,7 +54,6 @@ const getSingleProduct = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
-  // console.log(req.body, 'data');
   const result = await ProdcutServices.updateProductIntoDB(req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -63,6 +76,7 @@ const deleteProduct = catchAsync(async (req: Request, res: Response) => {
 
 export const ProductController = {
   createProduct,
+  getAllProductWithSearchFilter,
   getAllProduct,
   getSingleProduct,
   updateProduct,

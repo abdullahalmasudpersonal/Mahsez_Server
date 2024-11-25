@@ -14,6 +14,17 @@ const getBuyers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteBuyer = catchAsync(async (req: Request, res: Response) => {
+  const result = await BuyerServices.deleteBuyerIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Delete buyer Successfully',
+    data: result,
+  });
+});
+
 export const BuyerController = {
   getBuyers,
+  deleteBuyer,
 };

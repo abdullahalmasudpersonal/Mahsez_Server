@@ -1,32 +1,37 @@
 import { Request } from 'express';
 import { Buyer } from './buyer.model';
+import mongoose from 'mongoose';
 import { User } from '../User/user.model';
-import AppError from '../../errors/AppError';
-import httpStatus from 'http-status';
 
 const getBuyersIntoDB = async () => {
+  return await Buyer.find()
+    .select(
+      '_id id name email user gender contactNo companyName city postCode  presentAddress permanentAddress profileImg createdAt',
+    )
+    .populate('user', 'role status');
+};
+
+const deleteBuyerIntoDB = async (req: Request) => {
+  const buyerId = req.params.id;
+
+  const session = await mongoose.startSession();
   try {
-    const buyers = await Buyer.find();
-    const buyerEmails = buyers.map((buyer) => buyer.email);
+    session.startTransaction();
+    const deleteBuyerFormBuyer = await Buyer.findOneAndDelete({ _id: buyerId });
 
-    const users = await User.find({ email: { $in: buyerEmails } });
-
-    const mergedData = buyers.map((buyer) => {
-      const user = users.find((user) => user.email === buyer.email);
-
-      return {
-        ...buyer.toObject(),
-        ...user?.toObject(),
-      };
+    const deleteUser = await User.deleteOne({
+      _id: deleteBuyerFormBuyer?.user,
     });
 
-    return mergedData;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to get buyer data!');
+    await session.commitTransaction();
+    await session.endSession();
+    return deleteUser;
+  } catch (err: any) {
+    throw new Error(err);
   }
 };
 
 export const BuyerServices = {
   getBuyersIntoDB,
+  deleteBuyerIntoDB,
 };

@@ -1,12 +1,13 @@
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
-import { TProduct } from './product.interface';
 import { Product } from './product.model';
 import { generateProductId } from './product.utils';
 import mongoose from 'mongoose';
 import { Request } from 'express';
 import { IUploadFile } from '../../interface/file';
 import { FileUploadHelper } from '../../utils/fileUploadHelper';
+import { productSearchableFields } from './product.constant';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 const createProductIntoDB = async (req: Request) => {
   const productData = req.body;
@@ -53,8 +54,26 @@ const createProductIntoDB = async (req: Request) => {
 };
 
 const getProductIntoDB = async () => {
-  const allProduct = await Product.find().sort({ createdAt: -1 });
-  return allProduct;
+  return await Product.find().sort({ createdAt: -1 });
+};
+
+const getProductsWithSearchFilterIntoDB = async (
+  query: Record<string, unknown>,
+) => {
+  const productquery = new QueryBuilder(Product.find(), query)
+    .search(productSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const meta = await productquery.countTotal();
+  const result = await productquery.modelQuery;
+
+  return {
+    meta,
+    result,
+  };
 };
 
 const getSingleProductIntoDB = async (req: Request) => {
@@ -100,6 +119,7 @@ const deleteProductIntoDB = async (req: Request) => {
 
 export const ProdcutServices = {
   createProductIntoDB,
+  getProductsWithSearchFilterIntoDB,
   getProductIntoDB,
   getSingleProductIntoDB,
   updateProductIntoDB,

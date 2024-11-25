@@ -36,7 +36,7 @@ const createOrderIntoDB = async (req: Request) => {
       // Update the product quantity
       await Product.findByIdAndUpdate(
         product_id,
-        { $inc: { availableQuantity: -quantity } },
+        { $inc: { availableQuantity: -quantity, soldQuantity: +quantity } },
         { session, new: true },
       );
     }
