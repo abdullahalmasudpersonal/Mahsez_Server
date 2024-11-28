@@ -5,6 +5,8 @@ import { PaymentController } from './payment.controller';
 
 const router = Router();
 
+router.post('/init-payment/:orderId', PaymentController.initPayment);
+
 router.get(
   '/buyer-payment',
   auth(USER_ROLE.buyer, USER_ROLE.admin),
