@@ -7,6 +7,10 @@ const router = Router();
 
 router.post('/init-payment/:orderId', PaymentController.initPayment);
 
+router.post('/ipn', PaymentController.validatePayment);
+
+// router.post('/success/:transactionId', PaymentController.validatePayment);
+
 router.get(
   '/buyer-payment',
   auth(USER_ROLE.buyer, USER_ROLE.admin),

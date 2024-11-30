@@ -4,10 +4,8 @@ import { Order } from '../order/order.model';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { Product } from '../Products/product.model';
-import config from '../../config';
-import axios from 'axios';
-import { TPayment } from './payment.interface';
 import { SSLService } from '../sslcommerz/ssl.service';
+import mongoose from 'mongoose';
 
 const initPaymentIntoDB = async (orderId: string) => {
   const [paymentData] = await Payment.aggregate([
@@ -56,50 +54,48 @@ const initPaymentIntoDB = async (orderId: string) => {
   } catch (error) {
     console.log(error);
   }
+};
 
-  // const { bookingId } = req.params;
-  // const paymentDta = await prisma.payment.findFirstOrThrow({
-  //   where: {
-  //     bookingId: bookingId,
-  //   },
-  //   select: {
-  //     transactionId: true,
-  //     amount: true,
-  //     booking: {
-  //       select: {
-  //         user: {
-  //           select: {
-  //             buyer: {
-  //               select: {
-  //                 name: true,
-  //                 email: true,
-  //                 contactNumber: true,
-  //                 address: true,
-  //               },
-  //             },
-  //           },
-  //         },
-  //         flat: {
-  //           select: {
-  //             flatName: true,
-  //             flatNo: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-  // const initPaymentData = {
-  //   total_amount: paymentDta?.amount,
-  //   transactionId: paymentDta?.transactionId,
-  //   product_name: paymentDta?.booking?.flat?.flatName,
-  //   cus_name: paymentDta?.booking?.user?.buyer?.name || '',
-  //   cus_email: paymentDta?.booking?.user?.buyer?.email || '',
-  //   cus_address: paymentDta?.booking?.user?.buyer?.address || '',
-  //   cus_phone: paymentDta?.booking?.user?.buyer?.contactNumber || '',
-  // };
-  // const result = await SSLService.initPayment(initPaymentData);
-  // return { paymentUrl: result?.GatewayPageURL };
+const validatePaymentIntoDB = async (payload: any) => {
+  // if (!payload || !payload.status || !(payload.status === 'VALID')) {
+  //   return { message: 'Invalid Payment!' };
+  // }
+
+  // const response = await SSLService.validatePayment(payload);
+
+  // if (response?.status !== 'VALID') {
+  //   return {
+  //     message: 'Payment Failed!',
+  //   };
+  // }
+
+  // const tran_id = payload;
+  // const response = { tran_id };
+  // console.log(response);
+  const response = payload;
+
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const updatePaymentStatus = await Payment.findOneAndUpdate(
+      { transactionId: response?.tran_id },
+      { $set: { paymentStatus: 'PAID', paymentGetwayData: response } },
+      { new: true },
+    );
+
+    await Order.updateOne(
+      { orderId: updatePaymentStatus?.orderId },
+      { $set: { paymentStatus: 'PAID' } },
+    );
+
+    await session.commitTransaction();
+    await session.endSession();
+    return {
+      message: 'Payment Success',
+    };
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getBuyerPaymentIntoDB = async (req: Request) => {
@@ -146,7 +142,7 @@ const getBuyerPaymentIntoDB = async (req: Request) => {
 
     return {
       ...payment.toObject(),
-      items: itemsWithProductNames, // নতুন items সহ যুক্ত করছি
+      items: itemsWithProductNames,
     };
   });
 
@@ -155,5 +151,6 @@ const getBuyerPaymentIntoDB = async (req: Request) => {
 
 export const PaymentServices = {
   initPaymentIntoDB,
+  validatePaymentIntoDB,
   getBuyerPaymentIntoDB,
 };
