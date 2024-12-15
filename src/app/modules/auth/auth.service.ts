@@ -4,6 +4,8 @@ import { User } from '../User/user.model';
 import { TLoginUser } from './auth.interface';
 import config from '../../config';
 import { createToken } from './auth.utils';
+import { Buyer } from '../buyer/buyer.model';
+import { Admin } from '../admin/admin.model';
 const loginUserIntoDB = async (payload: TLoginUser) => {
   const user = await User.isUserExistsByEmail(payload.email);
 
@@ -41,6 +43,25 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
     config.jwt_refresh_token as string,
     config.jwt_refresh_token_expires_in as string,
   );
+
+  if (user.role === 'buyer') {
+    await Buyer.updateOne(
+      { email: user?.email },
+      { $set: { onlineStatus: 'online' } },
+    );
+  }
+  if (user.role === 'admin') {
+    await Admin.updateOne(
+      { email: user?.email },
+      { $set: { onlineStatus: 'online' } },
+    );
+  }
+  if (user.role === 'superAdmin') {
+    await Admin.updateOne(
+      { email: user?.email },
+      { $set: { onlineStatus: 'online' } },
+    );
+  }
 
   return {
     accessToken,

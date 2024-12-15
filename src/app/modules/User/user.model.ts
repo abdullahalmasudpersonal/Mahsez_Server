@@ -33,6 +33,10 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: UserStatus,
       default: 'active',
     },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

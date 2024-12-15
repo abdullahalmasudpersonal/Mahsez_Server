@@ -85,9 +85,18 @@ const getSingleProductIntoDB = async (req: Request) => {
 const updateProductIntoDB = async (req: Request) => {
   const productId = req.params.id;
   const updateData = JSON.parse(req.body.data);
-  const existingFiles = req.body.existingFiles || [];
+  let existingFiles = req.body.existingFiles || [];
   const newFiles = req.files as unknown;
   let uploadFiles: IUploadFile[] = [];
+
+  /// convert array when single existing File
+  if (!Array.isArray(existingFiles)) {
+    if (typeof existingFiles === 'string') {
+      existingFiles = [existingFiles];
+    } else {
+      existingFiles = [];
+    }
+  }
 
   if (Array.isArray(newFiles)) {
     uploadFiles = newFiles as IUploadFile[];

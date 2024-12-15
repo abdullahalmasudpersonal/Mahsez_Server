@@ -7,4 +7,6 @@ router.get('/', BuyerController.getBuyers);
 
 router.delete('/:id', BuyerController.deleteBuyer);
 
+router.patch('/update-online-status', BuyerController.updateOnlineStatus);
+
 export const BuyerRoutes = router;

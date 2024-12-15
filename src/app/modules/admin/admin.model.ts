@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { TAdmin } from './admin.interface';
 import { UserModel } from '../User/user.interface';
+import { onlineStatus } from '../buyer/buyer.constant';
 
 const adminSchema = new Schema<TAdmin>(
   {
@@ -51,6 +52,11 @@ const adminSchema = new Schema<TAdmin>(
     presentAddress: {
       type: String,
       required: [false, 'Present address is not required'],
+    },
+    onlineStatus: {
+      type: String,
+      enum: onlineStatus,
+      default: 'offline',
     },
     permanentAddress: {
       type: String,

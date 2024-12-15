@@ -10,6 +10,7 @@ export type TAdmin = {
   companyName: string;
   city: string;
   postCode: string;
+  onlineStatus: 'online' | 'offline';
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;

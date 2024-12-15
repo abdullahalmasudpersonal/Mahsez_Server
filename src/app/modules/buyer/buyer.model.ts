@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { TBuyer } from './buyer.interface';
+import { onlineStatus } from './buyer.constant';
 
 const buyerSchema = new Schema<TBuyer>(
   {
@@ -22,6 +23,11 @@ const buyerSchema = new Schema<TBuyer>(
       type: String,
       required: [true, 'Email is required'],
       unique: true,
+    },
+    onlineStatus: {
+      type: String,
+      enum: onlineStatus,
+      default: 'offline',
     },
     gender: {
       type: String,

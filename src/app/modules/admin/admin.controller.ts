@@ -14,6 +14,18 @@ const getAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateOnlineStatus = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminServices.updateOnlineStatusIntoDB(req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Update admin online status successfully',
+    data: result,
+  });
+});
+
 export const AdminController = {
   getAdmins,
+  updateOnlineStatus,
 };

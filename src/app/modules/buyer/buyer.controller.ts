@@ -24,7 +24,19 @@ const deleteBuyer = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateOnlineStatus = catchAsync(async (req, res) => {
+  const result = await BuyerServices.updateOnlineStatusIntoDB(req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Update buyer online status successfully',
+    data: result,
+  });
+});
+
 export const BuyerController = {
   getBuyers,
   deleteBuyer,
+  updateOnlineStatus,
 };

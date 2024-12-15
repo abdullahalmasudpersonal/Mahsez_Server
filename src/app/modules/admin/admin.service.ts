@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { Admin } from './admin.model';
 import { User } from '../User/user.model';
+import { Request } from 'express';
 
 const getAdminsIntoDB = async () => {
   try {
@@ -26,6 +27,15 @@ const getAdminsIntoDB = async () => {
   }
 };
 
+const updateOnlineStatusIntoDB = async (req: Request) => {
+  const user = req.body;
+  return await Admin.updateOne(
+    { id: user?.userId },
+    { $set: { onlineStatus: 'offline' } },
+  );
+};
+
 export const AdminServices = {
   getAdminsIntoDB,
+  updateOnlineStatusIntoDB,
 };

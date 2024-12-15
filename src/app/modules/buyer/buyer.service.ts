@@ -6,9 +6,9 @@ import { User } from '../User/user.model';
 const getBuyersIntoDB = async () => {
   return await Buyer.find()
     .select(
-      '_id id name email user gender contactNo companyName city postCode  presentAddress permanentAddress profileImg createdAt',
+      '_id id name email user gender contactNo companyName city postCode  presentAddress permanentAddress profileImg createdAt onlineStatus',
     )
-    .populate('user', 'role status');
+    .populate('user', 'role status isOnline onlineStatus');
 };
 
 const deleteBuyerIntoDB = async (req: Request) => {
@@ -31,7 +31,16 @@ const deleteBuyerIntoDB = async (req: Request) => {
   }
 };
 
+const updateOnlineStatusIntoDB = async (req: Request) => {
+  const user = req.body;
+  return await Buyer.updateOne(
+    { id: user?.userId },
+    { $set: { onlineStatus: 'offline' } },
+  );
+};
+
 export const BuyerServices = {
   getBuyersIntoDB,
   deleteBuyerIntoDB,
+  updateOnlineStatusIntoDB,
 };
