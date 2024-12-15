@@ -18,9 +18,11 @@ async function mahsezServer() {
     io = new SocketIOServer(server, {
       cors: {
         origin: ['https://mahsez.vercel.app', 'http://localhost:5173'],
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
         credentials: true,
       },
+      pingTimeout: 60000,
+      transports: ['websocket'],
     });
 
     io.on('connection', (socket) => {
@@ -44,7 +46,7 @@ async function mahsezServer() {
       });
 
       socket.on('disconnect', async (id) => {
-        console.log(`User disconnected: userid${id}`);
+        // console.log(`User disconnected: userid${id}`);
         if (socket.userId) {
           console.log(`User ${socket.userId} is offline`);
           await User.findOneAndUpdate(
