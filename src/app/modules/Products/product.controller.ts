@@ -32,7 +32,7 @@ const getAllProduct = catchAsync(async (req: Request, res: Response) => {
   if (ip.startsWith('::ffff:')) {
     ip = ip.substring(7); // IPV4 address
   }
-  console.log(ip, 'ip');
+  console.log(ip, 'ipp');
 
   let ips = requestIp.getClientIp(req);
   console.log(ips, 'ips');
