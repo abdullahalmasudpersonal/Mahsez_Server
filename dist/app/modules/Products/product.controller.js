@@ -34,6 +34,7 @@ const getAllProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
     let ip = request_ip_1.default.getClientIp(req);
+    // console.log(req.headers);
     yield user_model_1.User.updateOne({ email: payload === null || payload === void 0 ? void 0 : payload.email }, { ipAddress: ip });
     const result = yield product_service_1.ProdcutServices.getProductIntoDB();
     (0, sendResponse_1.default)(res, {

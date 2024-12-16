@@ -8,6 +8,9 @@ const visitorSchema = new Schema<TVisitors>({
   },
   userAgent: { type: String, required: true },
   visitedAt: { type: Date, default: Date.now },
+  gioData: {
+    type: String,
+  },
 });
 
 export const Visitor = model<TVisitors>('Visitor', visitorSchema);

@@ -9,5 +9,8 @@ const visitorSchema = new mongoose_1.Schema({
     },
     userAgent: { type: String, required: true },
     visitedAt: { type: Date, default: Date.now },
+    gioData: {
+        type: String,
+    },
 });
 exports.Visitor = (0, mongoose_1.model)('Visitor', visitorSchema);
