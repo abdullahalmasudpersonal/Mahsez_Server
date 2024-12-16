@@ -49,6 +49,10 @@ const userSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
+    ipAddress: {
+        type: String,
+        required: false,
+    },
     isDeleted: {
         type: Boolean,
         default: false,

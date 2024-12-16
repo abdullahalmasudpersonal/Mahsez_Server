@@ -10,21 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VisitorServices = void 0;
-const visitors_model_1 = require("./visitors.model");
 const createVisiotrIntoDB = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        let visitor = yield visitors_model_1.Visitor.findOne();
-        if (!visitor) {
-            visitor = new visitors_model_1.Visitor({ count: 1 });
-        }
-        else {
-            visitor.count += 1;
-        }
-        yield visitor.save();
-    }
-    catch (err) {
-        console.log(err);
-    }
+    console.log(req, 'req');
 });
 exports.VisitorServices = {
     createVisiotrIntoDB,

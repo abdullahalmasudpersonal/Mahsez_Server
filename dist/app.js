@@ -17,6 +17,7 @@ const corsOptions = {
 /// parsers
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
+app.set('trust proxy', true);
 app.use('/api/v1', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Mahsez Server In Progress!');

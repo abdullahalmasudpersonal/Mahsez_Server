@@ -17,6 +17,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const product_service_1 = require("./product.service");
+const user_model_1 = require("../User/user.model");
 const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_service_1.ProdcutServices.createProductIntoDB(req);
     (0, sendResponse_1.default)(res, {
@@ -27,6 +28,18 @@ const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const getAllProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(req.socket.remoteAddress, 'req');
+    // console.log(req.headers['user-agent']);
+    // const ip = req.headers['x-forwarded-for'];
+    // console.log(ip, 'ip');
+    const ip = req.socket.remoteAddress === '::1' ? '127.0.0.1' : req.socket.remoteAddress;
+    console.log(ip, 'req');
+    const token = req.headers.authorization || '';
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
+    console.log(payload, 'apyload');
+    yield user_model_1.User.updateOne({ email: payload === null || payload === void 0 ? void 0 : payload.email }, { ipAddress: ip });
     const result = yield product_service_1.ProdcutServices.getProductIntoDB();
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

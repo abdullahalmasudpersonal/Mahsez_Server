@@ -15,6 +15,7 @@ const corsOptions = {
 /// parsers
 app.use(express.json());
 app.use(cors(corsOptions));
+app.set('trust proxy', true);
 
 app.use('/api/v1', router);
 
