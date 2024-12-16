@@ -36,6 +36,7 @@ const getAllProduct = catchAsync(async (req: Request, res: Response) => {
 
   let ips = requestIp.getClientIp(req);
   console.log(ips, 'ips');
+  console.log('masud');
 
   await User.updateOne({ email: payload?.email }, { ipAddress: ip });
 
