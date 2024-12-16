@@ -22,14 +22,14 @@ const getAllProduct = catchAsync(async (req: Request, res: Response) => {
   // const ip = req.headers['x-forwarded-for'];
   // console.log(ip, 'ip');
   const ip =
-    req.socket.remoteAddress === '::1' ? '127.0.0.1' : req.socket.remoteAddress;
+    req.socket.remoteAddress === '::1' ? req.socket.remoteAddress : '127.0.0.1';
   console.log(ip, 'req');
   const token = req.headers.authorization || '';
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
-  console.log(payload, 'apyload');
-
+  //  / console.log(payload, 'apyload');
+  console.log(req);
   await User.updateOne({ email: payload?.email }, { ipAddress: ip });
 
   const result = await ProdcutServices.getProductIntoDB();
