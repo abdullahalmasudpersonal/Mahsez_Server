@@ -23,11 +23,6 @@ app.use(cors(corsOptions));
 app.set('trust proxy', true);
 
 app.use('/api/v1/product', async (req, res, next) => {
-  // if (req.path === '/') {
-  //   return next(); // ফেভিকন রিকোয়েস্ট স্কিপ করুন
-  // }
-  // console.log(`Middleware triggered for path: ${req.path}`);
-
   try {
     const ip = requestIp.getClientIp(req);
     const ips = '103.120.203.217';

@@ -32,10 +32,6 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
 app.set('trust proxy', true);
 app.use('/api/v1/product', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // if (req.path === '/') {
-    //   return next(); // ফেভিকন রিকোয়েস্ট স্কিপ করুন
-    // }
-    // console.log(`Middleware triggered for path: ${req.path}`);
     try {
         const ip = request_ip_1.default.getClientIp(req);
         const ips = '103.120.203.217';
