@@ -1,9 +1,17 @@
 import { Model } from 'mongoose';
 
-export interface TVisitors {
-  ip: string;
-  userAgent: string;
-  visitedAt: Date;
+export type visitorDeviceInfo = {
+  device: string;
+  brand: string;
+  type: string;
+  os: string;
+  cpu: string;
+  osVersion: string;
+  browser: string;
+  browserVersion: string;
+};
+
+export type visitorIspInfo = {
   country: string;
   region: string;
   regionName: string;
@@ -14,6 +22,13 @@ export interface TVisitors {
   lat: number;
   lon: number;
   timezone: string;
+};
+
+export interface TVisitors {
+  ip: string;
+  deviceInfo: visitorDeviceInfo;
+  ispInfo: visitorIspInfo;
+  visitedAt: Date;
 }
 
 export interface VisitorModel extends Model<TVisitors> {}
