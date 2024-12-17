@@ -31,7 +31,7 @@ app.use('/api/v1/product', async (req, res, next) => {
   try {
     const ip = requestIp.getClientIp(req);
     const ips = '103.120.203.217';
-    const geoApiUrl = `http://ip-api.com/json/${ips}`;
+    const geoApiUrl = `http://ip-api.com/json/${ip}`;
     const geoResponse = await axios.get(geoApiUrl);
     const geoData = geoResponse.data;
 
