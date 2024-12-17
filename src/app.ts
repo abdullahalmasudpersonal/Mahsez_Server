@@ -6,6 +6,7 @@ import router from './app/routes';
 import requestIp from 'request-ip';
 import { Visitor } from './app/modules/visitors/visitors.model';
 import axios from 'axios';
+import { TVisitors } from './app/modules/visitors/visitors.interface';
 
 const app: Application = express();
 
@@ -33,6 +34,7 @@ app.use('/api/v1', async (req, res, next) => {
     // if(ip){
     //   const visitor = await Visitor.find({ ip, visitedAt:''})
     // }
+    const ips = '103.120.203.217';
     const geoApiUrl = `http://ip-api.com/json/${ip}`;
     const geoResponse = await axios.get(geoApiUrl);
     const geoData = geoResponse.data;
@@ -41,8 +43,17 @@ app.use('/api/v1', async (req, res, next) => {
     const userAgent = req.headers['user-agent'];
     const visitorData = {
       ip: ip,
-      gioData: geoData,
       userAgent: userAgent,
+      country: geoData.country,
+      region: geoData.region,
+      regionName: geoData.regionName,
+      city: geoData.city,
+      isp: geoData.isp,
+      org: geoData.org,
+      as: geoData.as,
+      lat: geoData.lat,
+      lon: geoData.lon,
+      timezone: geoData.timezone,
     };
     // console.log(visitorData, 'visiotrdAta');
 

@@ -43,6 +43,7 @@ app.use('/api/v1', (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         // if(ip){
         //   const visitor = await Visitor.find({ ip, visitedAt:''})
         // }
+        const ips = '103.120.203.217';
         const geoApiUrl = `http://ip-api.com/json/${ip}`;
         const geoResponse = yield axios_1.default.get(geoApiUrl);
         const geoData = geoResponse.data;
@@ -50,8 +51,17 @@ app.use('/api/v1', (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const userAgent = req.headers['user-agent'];
         const visitorData = {
             ip: ip,
-            gioData: geoData,
             userAgent: userAgent,
+            country: geoData.country,
+            region: geoData.region,
+            regionName: geoData.regionName,
+            city: geoData.city,
+            isp: geoData.isp,
+            org: geoData.org,
+            as: geoData.as,
+            lat: geoData.lat,
+            lon: geoData.lon,
+            timezone: geoData.timezone,
         };
         // console.log(visitorData, 'visiotrdAta');
         const newVisitor = yield visitors_model_1.Visitor.create(visitorData);
