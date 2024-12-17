@@ -29,10 +29,12 @@ app.use('/api/v1/product', async (req, res, next) => {
     const geoApiUrl = `http://ip-api.com/json/${ip}`;
     const geoResponse = await axios.get(geoApiUrl);
     const geoData = geoResponse.data;
+    console.log(geoData, 'geoData');
 
     const uaParser = new UAParser();
     const userAgentString = req.headers['user-agent'] || '';
     const parsedUA = uaParser.setUA(userAgentString).getResult();
+    console.log(parsedUA, 'parsedUA');
 
     // const currentData = new Date();
     // const formattedDate1 = currentData.toString().split('T')[0];
@@ -72,32 +74,7 @@ app.use('/api/v1/product', async (req, res, next) => {
     const newVisitor = await Visitor.create(visitorData);
     console.log(newVisitor, 'new visitor');
 
-    // const userAgent = req.headers['user-agent']?.toLowerCase();
-    // console.log(userAgent, 'useragent');
-    // let deviceType = 'Desktop';
-    // if (userAgent?.includes('mobile')) {
-    //   deviceType = 'Mobile';
-    // } else if (userAgent?.includes('tablet') || userAgent?.includes('ipad')) {
-    //   deviceType = 'Tablet';
-    // }
-    // console.log(`Visitor is using a ${deviceType} device.`);
-
     // const response = await fetch('https://api.ipify.org?format=json');
-    // const data = await response.json();
-    // console.log(`Your Public IP: ${data.ip}`);
-
-    // const data = {
-    //   device: parsedUA.device.model || 'Unknown',
-    //   brand: parsedUA.device.vendor || 'Unknown',
-    //   type: parsedUA.device.type || 'Unknown',
-    //   os: parsedUA.os.name,
-    //   osVersion: parsedUA.os.version,
-    //   browser: parsedUA.browser.name,
-    //   browserVersion: parsedUA.browser.version,
-    // };
-    // console.log(data);
-
-    // console.log('Full User Agent Info:', parsedUA);
   } catch (error) {
     console.error('Error counting visitor:', error);
   }
