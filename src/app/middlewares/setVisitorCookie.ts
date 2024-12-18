@@ -12,7 +12,7 @@ export const setVisitorCookie = async (
     res.cookie('sessionId', sessionId, {
       maxAge: 24 * 60 * 60 * 1000, // 1 দিন (মিলিসেকেন্ড)
       httpOnly: true, // JavaScript থেকে কুকি অ্যাক্সেস বন্ধ (security)
-      secure: false, // HTTPS হলে true করুন
+      secure: true, // HTTPS হলে true করুন
       sameSite: 'lax', // CSRF Protection
     });
     console.log('New Session ID created:', sessionId);

@@ -18,7 +18,7 @@ const setVisitorCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         res.cookie('sessionId', sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
-            secure: false,
+            secure: true,
             sameSite: 'lax', // CSRF Protection
         });
         console.log('New Session ID created:', sessionId);
