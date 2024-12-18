@@ -12,15 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const node_cron_1 = __importDefault(require("node-cron"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const globalErrorhandler_1 = __importDefault(require("./app/middlewares/globalErrorhandler"));
 const routes_1 = __importDefault(require("./app/routes"));
-const request_ip_1 = __importDefault(require("request-ip"));
+const visitor_middleware_1 = require("./app/middlewares/visitor.middleware");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const setVisitorCookie_1 = require("./app/middlewares/setVisitorCookie");
 const visitors_model_1 = require("./app/modules/visitors/visitors.model");
-const axios_1 = __importDefault(require("axios"));
-const ua_parser_js_1 = require("ua-parser-js");
 const app = (0, express_1.default)();
 const corsOptions = {
     origin: ['https://mahsez.vercel.app', 'http://localhost:5173'],
@@ -31,60 +32,16 @@ const corsOptions = {
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
 app.set('trust proxy', true);
-app.use('/api/v1/product', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const ip = request_ip_1.default.getClientIp(req);
-        const ips = '103.120.203.217';
-        const geoApiUrl = `http://ip-api.com/json/${ip}`;
-        const geoResponse = yield axios_1.default.get(geoApiUrl);
-        const geoData = geoResponse.data;
-        console.log(geoData, 'geoData');
-        const uaParser = new ua_parser_js_1.UAParser();
-        const userAgentString = req.headers['user-agent'] || '';
-        const parsedUA = uaParser.setUA(userAgentString).getResult();
-        console.log(parsedUA, 'parsedUA');
-        // const currentData = new Date();
-        // const formattedDate1 = currentData.toString().split('T')[0];
-        // console.log(formattedDate1, 'todate');
-        // if(ip){
-        //   const visitor = await Visitor.find({ ip, visitedAt:''})
-        // }
-        // const ips = '103.120.203.217';
-        const visitorData = {
-            ip: ip,
-            deviceInfo: {
-                device: parsedUA.device.model || 'Unknown',
-                brand: parsedUA.device.vendor || 'Unknown',
-                type: parsedUA.device.type || 'Unknown',
-                os: parsedUA.os.name,
-                cpu: parsedUA.cpu.architecture,
-                osVersion: parsedUA.os.version,
-                browser: parsedUA.browser.name,
-                browserVersion: parsedUA.browser.version,
-            },
-            ispInfo: {
-                country: geoData.country,
-                region: geoData.region,
-                regionName: geoData.regionName,
-                city: geoData.city,
-                isp: geoData.isp,
-                org: geoData.org,
-                as: geoData.as,
-                lat: geoData.lat,
-                lon: geoData.lon,
-                timezone: geoData.timezone,
-            },
-        };
-        // console.log(visitorData /* req.headers['user-agent'] */, 'visiotrdAta');
-        const newVisitor = yield visitors_model_1.Visitor.create(visitorData);
-        console.log(newVisitor, 'new visitor');
-        // const response = await fetch('https://api.ipify.org?format=json');
-    }
-    catch (error) {
-        console.error('Error counting visitor:', error);
-    }
-    next();
+app.use((0, cookie_parser_1.default)());
+app.use(setVisitorCookie_1.setVisitorCookie);
+// প্রতিদিন রাত 12টায় পুরানো Session ID মুছে ফেলা
+node_cron_1.default.schedule('0 0 * * *', () => __awaiter(void 0, void 0, void 0, function* () {
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    yield visitors_model_1.Visitor.deleteMany({ visitedAt: { $lt: oneDayAgo } });
+    console.log('Old session IDs removed successfully.');
 }));
+app.use('/api/v1/product', visitor_middleware_1.visitorMiddleware);
 app.use('/api/v1', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Mahsez Server In Progress!');

@@ -26,9 +26,12 @@ export type visitorIspInfo = {
 
 export interface TVisitors {
   ip: string;
+  sessionId: string;
+  visitCount: number;
   deviceInfo: visitorDeviceInfo;
   ispInfo: visitorIspInfo;
   visitedAt: Date;
+  lastVisitedAt: Date;
 }
 
 export interface VisitorModel extends Model<TVisitors> {}

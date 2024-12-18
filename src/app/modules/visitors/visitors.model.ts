@@ -32,11 +32,14 @@ const visitorIspInfoSchema = new Schema<visitorIspInfo>({
 const visitorSchema = new Schema<TVisitors>({
   ip: {
     type: String,
-    required: true,
+    required: false,
   },
+  sessionId: { type: String, required: false },
+  visitCount: { type: Number, default: 1 },
   deviceInfo: visitorDeviceInfoSchema,
   ispInfo: visitorIspInfoSchema,
   visitedAt: { type: Date, default: Date.now },
+  lastVisitedAt: { type: Date, required: false },
 });
 
 export const Visitor = model<TVisitors>('Visitor', visitorSchema);

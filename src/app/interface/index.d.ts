@@ -14,3 +14,7 @@ declare module 'socket.io' {
     userId?: string;
   }
 }
+
+declare module 'arp' {
+  export function getIp(hostname: string): Promise<string>;
+}

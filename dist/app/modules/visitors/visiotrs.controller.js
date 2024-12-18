@@ -17,16 +17,16 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const visitors_service_1 = require("./visitors.service");
-const createVisiotr = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getVisiotr = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const { id } = req.params;
-    const result = yield visitors_service_1.VisitorServices.createVisiotrIntoDB(req);
+    const result = yield visitors_service_1.VisitorServices.getVisiotrIntoDB(req);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Create visitor successfully!",
+        message: 'Get visitors successfully!',
         data: result,
     });
 }));
 exports.VisitorController = {
-    createVisiotr,
+    getVisiotr,
 };

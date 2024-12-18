@@ -27,10 +27,13 @@ const visitorIspInfoSchema = new mongoose_1.Schema({
 const visitorSchema = new mongoose_1.Schema({
     ip: {
         type: String,
-        required: true,
+        required: false,
     },
+    sessionId: { type: String, required: false },
+    visitCount: { type: Number, default: 1 },
     deviceInfo: visitorDeviceInfoSchema,
     ispInfo: visitorIspInfoSchema,
     visitedAt: { type: Date, default: Date.now },
+    lastVisitedAt: { type: Date, required: false },
 });
 exports.Visitor = (0, mongoose_1.model)('Visitor', visitorSchema);
