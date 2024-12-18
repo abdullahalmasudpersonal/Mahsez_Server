@@ -21,10 +21,10 @@ const setVisitorCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             secure: true,
             sameSite: 'lax', // CSRF Protection
         });
-        console.log('New Session ID created:', sessionId);
+        // console.log('New Session ID created:', sessionId);
     }
     else {
-        console.log('Existing Session ID:', req.cookies.sessionId);
+        // console.log('Existing Session ID:', req.cookies.sessionId);
     }
     next();
 });

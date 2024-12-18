@@ -15,9 +15,9 @@ export const setVisitorCookie = async (
       secure: true, // HTTPS হলে true করুন
       sameSite: 'lax', // CSRF Protection
     });
-    console.log('New Session ID created:', sessionId);
+    // console.log('New Session ID created:', sessionId);
   } else {
-    console.log('Existing Session ID:', req.cookies.sessionId);
+    // console.log('Existing Session ID:', req.cookies.sessionId);
   }
   next();
 };

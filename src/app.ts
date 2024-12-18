@@ -24,14 +24,14 @@ app.set('trust proxy', true);
 app.use(cookieParser());
 app.use(setVisitorCookie);
 
-// প্রতিদিন রাত 12টায় পুরানো Session ID মুছে ফেলা
-cron.schedule('0 0 * * *', async () => {
-  const oneDayAgo = new Date();
-  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+// // প্রতিদিন রাত 12টায় পুরানো Session ID মুছে ফেলা
+// cron.schedule('0 0 * * *', async () => {
+//   const oneDayAgo = new Date();
+//   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-  await Visitor.deleteMany({ visitedAt: { $lt: oneDayAgo } });
-  console.log('Old session IDs removed successfully.');
-});
+//   await Visitor.deleteMany({ visitedAt: { $lt: oneDayAgo } });
+//   console.log('Old session IDs removed successfully.');
+// });
 
 app.use('/api/v1/product', visitorMiddleware);
 
