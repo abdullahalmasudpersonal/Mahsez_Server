@@ -57,10 +57,11 @@ export const visitorMiddleware = async (
           existingVisitor.visitCount += 1;
           existingVisitor.lastVisitedAt = new Date();
           await existingVisitor.save();
-          console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
-        } else {
-          console.log('Visitor revisited within 15 minutes or same page.');
+          // console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
         }
+        // else {
+        //   console.log('Visitor revisited within 15 minutes or same page.');
+        // }
       } else {
         await Visitor.create(visitorData);
       }

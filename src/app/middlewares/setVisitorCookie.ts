@@ -12,8 +12,8 @@ export const setVisitorCookie = async (
       res.cookie('sessionId', sessionId, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        // secure: false,
-        // sameSite: 'none',
+        secure: true,
+        sameSite: 'none',
         // domain: 'https://mahsez.vercel.app',
       });
     }

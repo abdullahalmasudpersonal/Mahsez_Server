@@ -62,11 +62,11 @@ const visitorMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                     existingVisitor.visitCount += 1;
                     existingVisitor.lastVisitedAt = new Date();
                     yield existingVisitor.save();
-                    console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
+                    // console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
                 }
-                else {
-                    console.log('Visitor revisited within 15 minutes or same page.');
-                }
+                // else {
+                //   console.log('Visitor revisited within 15 minutes or same page.');
+                // }
             }
             else {
                 yield visitors_model_1.Visitor.create(visitorData);

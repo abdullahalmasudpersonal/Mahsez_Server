@@ -34,7 +34,7 @@ app.use(setVisitorCookie);
 //   console.log('Old session IDs removed successfully.');
 // });
 
-// app.use(/* '/api/v1/product', */ visitorMiddleware);
+app.use('/api/v1/product', visitorMiddleware);
 
 app.use('/api/v1', router);
 
