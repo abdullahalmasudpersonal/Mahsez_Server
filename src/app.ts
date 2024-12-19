@@ -20,7 +20,7 @@ const corsOptions = {
 /// parsers
 app.use(express.json());
 app.use(cors(corsOptions));
-app.set('trust proxy', true);
+// app.set('trust proxy', true);
 app.use(cookieParser());
 app.use(setVisitorCookie);
 
@@ -33,7 +33,7 @@ app.use(setVisitorCookie);
 //   console.log('Old session IDs removed successfully.');
 // });
 
-app.use(/* '/api/v1/product', */ visitorMiddleware);
+// app.use(/* '/api/v1/product', */ visitorMiddleware);
 
 app.use('/api/v1', router);
 

@@ -8,7 +8,6 @@ const cors_1 = __importDefault(require("cors"));
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const globalErrorhandler_1 = __importDefault(require("./app/middlewares/globalErrorhandler"));
 const routes_1 = __importDefault(require("./app/routes"));
-const visitor_middleware_1 = require("./app/middlewares/visitor.middleware");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const setVisitorCookie_1 = require("./app/middlewares/setVisitorCookie");
 const app = (0, express_1.default)();
@@ -20,7 +19,7 @@ const corsOptions = {
 /// parsers
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
-app.set('trust proxy', true);
+// app.set('trust proxy', true);
 app.use((0, cookie_parser_1.default)());
 app.use(setVisitorCookie_1.setVisitorCookie);
 // // প্রতিদিন রাত 12টায় পুরানো Session ID মুছে ফেলা
@@ -30,7 +29,7 @@ app.use(setVisitorCookie_1.setVisitorCookie);
 //   await Visitor.deleteMany({ visitedAt: { $lt: oneDayAgo } });
 //   console.log('Old session IDs removed successfully.');
 // });
-app.use(/* '/api/v1/product', */ visitor_middleware_1.visitorMiddleware);
+// app.use(/* '/api/v1/product', */ visitorMiddleware);
 app.use('/api/v1', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Mahsez Server In Progress!');

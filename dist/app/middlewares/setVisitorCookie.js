@@ -18,8 +18,8 @@ const setVisitorCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             res.cookie('sessionId', sessionId, {
                 maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                secure: true,
-                sameSite: 'lax',
+                secure: false,
+                sameSite: 'none',
             });
         }
         next();
