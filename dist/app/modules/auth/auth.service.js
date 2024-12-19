@@ -20,7 +20,9 @@ const config_1 = __importDefault(require("../../config"));
 const auth_utils_1 = require("./auth.utils");
 const buyer_model_1 = require("../buyer/buyer.model");
 const admin_model_1 = require("../admin/admin.model");
-const loginUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const request_ip_1 = __importDefault(require("request-ip"));
+const loginUserIntoDB = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.body;
     const user = yield user_model_1.User.isUserExistsByEmail(payload.email);
     if (!user) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'This user is not found !');
@@ -51,6 +53,12 @@ const loginUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function*
     if (user.role === 'superAdmin') {
         yield admin_model_1.Admin.updateOne({ email: user === null || user === void 0 ? void 0 : user.email }, { $set: { onlineStatus: 'online' } });
     }
+    //   const token = req.headers.authorization || '';
+    // const base64Url = token.split('.')[1];
+    // const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    // const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
+    const ip = request_ip_1.default.getClientIp(req);
+    yield user_model_1.User.updateOne({ email: payload === null || payload === void 0 ? void 0 : payload.email }, { ipAddress: ip });
     return {
         accessToken,
         refreshToken,

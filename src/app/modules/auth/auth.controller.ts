@@ -5,7 +5,7 @@ import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
 
 const loginUser = catchAsync(async (req, res) => {
-  const result = await AuthServices.loginUserIntoDB(req.body);
+  const result = await AuthServices.loginUserIntoDB(req);
 
   const { refreshToken, accessToken } = result;
 

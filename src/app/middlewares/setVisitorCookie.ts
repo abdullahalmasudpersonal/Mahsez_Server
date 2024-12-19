@@ -6,18 +6,19 @@ export const setVisitorCookie = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (!req.cookies.sessionId) {
-    // কুকিতে Session ID সেট করা
-    const sessionId = uuidv4(); // ইউনিক স্ট্রিং তৈরি
-    res.cookie('sessionId', sessionId, {
-      maxAge: 24 * 60 * 60 * 1000, // 1 দিন (মিলিসেকেন্ড)
-      httpOnly: true, // JavaScript থেকে কুকি অ্যাক্সেস বন্ধ (security)
-      secure: true, // HTTPS হলে true করুন
-      sameSite: 'lax', // CSRF Protection
-    });
-    // console.log('New Session ID created:', sessionId);
-  } else {
-    // console.log('Existing Session ID:', req.cookies.sessionId);
+  try {
+    if (!req.cookies.sessionId) {
+      const sessionId = uuidv4();
+      res.cookie('sessionId', sessionId, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+      });
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+    next();
   }
-  next();
 };

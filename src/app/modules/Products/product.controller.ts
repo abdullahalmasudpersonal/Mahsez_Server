@@ -3,9 +3,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { Request, RequestHandler, Response } from 'express';
 import { ProdcutServices } from './product.service';
-import { User } from '../User/user.model';
-import ip from 'ip';
-import requestIp from 'request-ip';
 
 const createProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ProdcutServices.createProductIntoDB(req);
@@ -19,14 +16,6 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllProduct = catchAsync(async (req: Request, res: Response) => {
-  const token = req.headers.authorization || '';
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
-  let ip = requestIp.getClientIp(req);
-  // console.log(req.headers);
-  await User.updateOne({ email: payload?.email }, { ipAddress: ip });
-
   const result = await ProdcutServices.getProductIntoDB();
   sendResponse(res, {
     statusCode: httpStatus.OK,

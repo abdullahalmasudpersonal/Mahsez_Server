@@ -12,20 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setVisitorCookie = void 0;
 const uuid_1 = require("uuid");
 const setVisitorCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.cookies.sessionId) {
-        // কুকিতে Session ID সেট করা
-        const sessionId = (0, uuid_1.v4)(); // ইউনিক স্ট্রিং তৈরি
-        res.cookie('sessionId', sessionId, {
-            maxAge: 24 * 60 * 60 * 1000,
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax', // CSRF Protection
-        });
-        // console.log('New Session ID created:', sessionId);
+    try {
+        if (!req.cookies.sessionId) {
+            const sessionId = (0, uuid_1.v4)();
+            res.cookie('sessionId', sessionId, {
+                maxAge: 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+            });
+        }
+        next();
     }
-    else {
-        // console.log('Existing Session ID:', req.cookies.sessionId);
+    catch (error) {
+        console.log(error);
+        next();
     }
-    next();
 });
 exports.setVisitorCookie = setVisitorCookie;

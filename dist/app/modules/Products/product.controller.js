@@ -17,8 +17,6 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const product_service_1 = require("./product.service");
-const user_model_1 = require("../User/user.model");
-const request_ip_1 = __importDefault(require("request-ip"));
 const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_service_1.ProdcutServices.createProductIntoDB(req);
     (0, sendResponse_1.default)(res, {
@@ -29,13 +27,6 @@ const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const getAllProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.headers.authorization || '';
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
-    let ip = request_ip_1.default.getClientIp(req);
-    // console.log(req.headers);
-    yield user_model_1.User.updateOne({ email: payload === null || payload === void 0 ? void 0 : payload.email }, { ipAddress: ip });
     const result = yield product_service_1.ProdcutServices.getProductIntoDB();
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

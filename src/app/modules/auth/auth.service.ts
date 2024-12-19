@@ -6,7 +6,12 @@ import config from '../../config';
 import { createToken } from './auth.utils';
 import { Buyer } from '../buyer/buyer.model';
 import { Admin } from '../admin/admin.model';
-const loginUserIntoDB = async (payload: TLoginUser) => {
+import { Request } from 'express';
+import requestIp from 'request-ip';
+
+const loginUserIntoDB = async (req: Request) => {
+  const payload: TLoginUser = req.body;
+
   const user = await User.isUserExistsByEmail(payload.email);
 
   if (!user) {
@@ -62,6 +67,14 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
       { $set: { onlineStatus: 'online' } },
     );
   }
+
+  //   const token = req.headers.authorization || '';
+  // const base64Url = token.split('.')[1];
+  // const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  // const payload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
+
+  const ip = requestIp.getClientIp(req);
+  await User.updateOne({ email: payload?.email }, { ipAddress: ip });
 
   return {
     accessToken,
