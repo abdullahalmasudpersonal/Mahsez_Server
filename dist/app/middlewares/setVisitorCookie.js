@@ -18,8 +18,9 @@ const setVisitorCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             res.cookie('sessionId', sessionId, {
                 maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                secure: false,
-                sameSite: 'none',
+                // secure: false,
+                // sameSite: 'none',
+                // domain: 'https://mahsez.vercel.app',
             });
         }
         next();

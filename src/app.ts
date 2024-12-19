@@ -6,8 +6,9 @@ import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import router from './app/routes';
 import { visitorMiddleware } from './app/middlewares/visitor.middleware';
 import cookieParser from 'cookie-parser';
-import { setVisitorCookie } from './app/middlewares/setVisitorCookie';
+// import { setVisitorCookie } from './app/middlewares/setVisitorCookie';
 import { Visitor } from './app/modules/visitors/visitors.model';
+import { setVisitorCookie } from './app/middlewares/setVisitorCookie';
 
 const app: Application = express();
 
