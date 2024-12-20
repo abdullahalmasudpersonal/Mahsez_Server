@@ -5,8 +5,6 @@ import { Request, Response } from 'express';
 import { VisitorServices } from './visitors.service';
 
 const getVisiotr = catchAsync(async (req: Request, res: Response) => {
-  // const { id } = req.params;
-
   const result = await VisitorServices.getVisiotrIntoDB(req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -16,6 +14,20 @@ const getVisiotr = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getVisiotrWithFilter = catchAsync(async (req: Request, res: Response) => {
+  const result = await VisitorServices.getVisitorsWithFilterWithSearchIntoDB(
+    req.query,
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get filter visitors successfully!',
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
 export const VisitorController = {
   getVisiotr,
+  getVisiotrWithFilter,
 };

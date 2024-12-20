@@ -42,11 +42,19 @@ const productSchema = new Schema<TProduct, ProductModel>(
       type: Number,
       required: true,
     },
+    purchaseprice: {
+      type: Number,
+      required: true,
+    },
     regularPrice: {
       type: Number,
       required: true,
     },
     offerPrice: {
+      type: Number,
+      required: false,
+    },
+    profit: {
       type: Number,
       required: false,
     },

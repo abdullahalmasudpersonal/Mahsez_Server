@@ -10,6 +10,8 @@ export type TProduct = {
   availableQuantity: number;
   stockStatus: 'In Stock' | 'Out Of Stock';
   price: number;
+  purchaseprice: number;
+  profit: number;
   regularPrice: number;
   offerPrice?: number;
   size: string;

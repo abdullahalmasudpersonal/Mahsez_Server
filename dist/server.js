@@ -25,7 +25,6 @@ function mahsezServer() {
         try {
             yield mongoose_1.default.connect(config_1.default.databaseUrl);
             server = new http_1.Server(app_1.default);
-            let onlineUsers = {};
             io = new socket_io_1.Server(server, {
                 cors: {
                     origin: ['https://mahsez.vercel.app', 'http://localhost:5173'],
@@ -36,37 +35,17 @@ function mahsezServer() {
                 transports: ['websocket'],
             });
             io.on('connection', (socket) => {
-                console.log('A user connected:', socket.id);
-                // যখন বায়ার তার তথ্য পাঠায়
                 socket.on('userOnline', (id) => __awaiter(this, void 0, void 0, function* () {
                     socket.userId = id;
-                    console.log(`User ${id} is online`);
                     yield user_model_1.User.findOneAndUpdate({ id: id }, { isOnline: true });
                 }));
-                // io.emit('statusUpdated', Object.keys(onlineUsers)); // অ্যাডমিনকে আপডেট পাঠানো
-                // onlineUsers[id] = socket.id; // buyerId এবং socket.id সংরক্ষণ করা
-                // console.log(onlineUsers, 'online users');
-                // ইউজার অফলাইন হলে (স্বেচ্ছায়)
                 socket.on('userOffline', (userId) => __awaiter(this, void 0, void 0, function* () {
-                    console.log(`User ${userId} is offline`);
                     yield user_model_1.User.findOneAndUpdate({ id: userId }, { isOnline: false });
-                    // io.emit('statusUpdated', { userId, isOnline: false });
                 }));
                 socket.on('disconnect', (id) => __awaiter(this, void 0, void 0, function* () {
-                    // console.log(`User disconnected: userid${id}`);
                     if (socket.userId) {
-                        console.log(`User ${socket.userId} is offline`);
                         yield user_model_1.User.findOneAndUpdate({ id: socket.userId }, { isOnline: false });
                     }
-                    // await User.findOneAndUpdate({ id: id }, { isOnline: true });
-                    // অনলাইন বায়ার লিস্ট থেকে বায়ার সরানো
-                    // for (const [buyerId, socketId] of Object.entries(onlineUsers)) {
-                    //   if (socketId === socket.id) {
-                    //     delete onlineUsers[buyerId];
-                    //     break;
-                    //   }
-                    // }
-                    // io.emit('updateOnlineBuyers', Object.keys(onlineUsers)); // অ্যাডমিনকে আপডেট পাঠানো
                 }));
             });
             server.listen(config_1.default.port, () => {

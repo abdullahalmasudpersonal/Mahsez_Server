@@ -9,5 +9,8 @@ const visiotrs_controller_1 = require("./visiotrs.controller");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const user_constant_1 = require("../User/user.constant");
 const router = (0, express_1.Router)();
-router.post('/', (0, auth_1.default)(user_constant_1.USER_ROLE.superAdmin, user_constant_1.USER_ROLE.admin), visiotrs_controller_1.VisitorController.getVisiotr);
+router.get('/df', (0, auth_1.default)(user_constant_1.USER_ROLE.superAdmin, user_constant_1.USER_ROLE.admin), visiotrs_controller_1.VisitorController.getVisiotr);
+router.get('/', 
+// auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+visiotrs_controller_1.VisitorController.getVisiotrWithFilter);
 exports.visitorRoutes = router;

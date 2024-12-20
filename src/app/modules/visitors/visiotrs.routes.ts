@@ -5,10 +5,16 @@ import { USER_ROLE } from '../User/user.constant';
 
 const router = Router();
 
-router.post(
-  '/',
+router.get(
+  '/df',
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   VisitorController.getVisiotr,
+);
+
+router.get(
+  '/',
+  // auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  VisitorController.getVisiotrWithFilter,
 );
 
 export const visitorRoutes = router;

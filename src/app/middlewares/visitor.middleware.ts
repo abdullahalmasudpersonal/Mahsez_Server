@@ -50,18 +50,14 @@ export const visitorMiddleware = async (
 
     if (sessionId) {
       const existingVisitor = await Visitor.findOne({ sessionId });
-      const fifteenMinutesAgo = new Date(Date.now() - 1 * 60 * 1000);
+      const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
 
       if (existingVisitor) {
         if (existingVisitor.lastVisitedAt < fifteenMinutesAgo) {
           existingVisitor.visitCount += 1;
           existingVisitor.lastVisitedAt = new Date();
           await existingVisitor.save();
-          // console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
         }
-        // else {
-        //   console.log('Visitor revisited within 15 minutes or same page.');
-        // }
       } else {
         await Visitor.create(visitorData);
       }

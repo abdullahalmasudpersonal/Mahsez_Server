@@ -56,17 +56,13 @@ const visitorMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         };
         if (sessionId) {
             const existingVisitor = yield visitors_model_1.Visitor.findOne({ sessionId });
-            const fifteenMinutesAgo = new Date(Date.now() - 1 * 60 * 1000);
+            const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
             if (existingVisitor) {
                 if (existingVisitor.lastVisitedAt < fifteenMinutesAgo) {
                     existingVisitor.visitCount += 1;
                     existingVisitor.lastVisitedAt = new Date();
                     yield existingVisitor.save();
-                    // console.log(`Visitor updated: ${existingVisitor.visitCount} times.`);
                 }
-                // else {
-                //   console.log('Visitor revisited within 15 minutes or same page.');
-                // }
             }
             else {
                 yield visitors_model_1.Visitor.create(visitorData);

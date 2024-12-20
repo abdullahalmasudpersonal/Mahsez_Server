@@ -13,7 +13,6 @@ async function mahsezServer() {
     await mongoose.connect(config.databaseUrl as string);
 
     server = new Server(app);
-    let onlineUsers = {} as string[];
 
     io = new SocketIOServer(server, {
       cors: {
@@ -26,43 +25,22 @@ async function mahsezServer() {
     });
 
     io.on('connection', (socket) => {
-      console.log('A user connected:', socket.id);
-
-      // যখন বায়ার তার তথ্য পাঠায়
       socket.on('userOnline', async (id) => {
         socket.userId = id;
-        console.log(`User ${id} is online`);
         await User.findOneAndUpdate({ id: id }, { isOnline: true });
       });
-      // io.emit('statusUpdated', Object.keys(onlineUsers)); // অ্যাডমিনকে আপডেট পাঠানো
-      // onlineUsers[id] = socket.id; // buyerId এবং socket.id সংরক্ষণ করা
-      // console.log(onlineUsers, 'online users');
 
-      // ইউজার অফলাইন হলে (স্বেচ্ছায়)
       socket.on('userOffline', async (userId) => {
-        console.log(`User ${userId} is offline`);
         await User.findOneAndUpdate({ id: userId }, { isOnline: false });
-        // io.emit('statusUpdated', { userId, isOnline: false });
       });
 
       socket.on('disconnect', async (id) => {
-        // console.log(`User disconnected: userid${id}`);
         if (socket.userId) {
-          console.log(`User ${socket.userId} is offline`);
           await User.findOneAndUpdate(
             { id: socket.userId },
             { isOnline: false },
           );
         }
-        // await User.findOneAndUpdate({ id: id }, { isOnline: true });
-        // অনলাইন বায়ার লিস্ট থেকে বায়ার সরানো
-        // for (const [buyerId, socketId] of Object.entries(onlineUsers)) {
-        //   if (socketId === socket.id) {
-        //     delete onlineUsers[buyerId];
-        //     break;
-        //   }
-        // }
-        // io.emit('updateOnlineBuyers', Object.keys(onlineUsers)); // অ্যাডমিনকে আপডেট পাঠানো
       });
     });
 

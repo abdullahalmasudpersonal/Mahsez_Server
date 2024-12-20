@@ -51,11 +51,19 @@ const productSchema = new mongoose_1.Schema({
         type: Number,
         required: true,
     },
+    purchaseprice: {
+        type: Number,
+        required: true,
+    },
     regularPrice: {
         type: Number,
         required: true,
     },
     offerPrice: {
+        type: Number,
+        required: false,
+    },
+    profit: {
         type: Number,
         required: false,
     },

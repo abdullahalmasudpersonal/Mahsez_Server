@@ -18,7 +18,6 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const visitors_service_1 = require("./visitors.service");
 const getVisiotr = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const { id } = req.params;
     const result = yield visitors_service_1.VisitorServices.getVisiotrIntoDB(req);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -27,6 +26,17 @@ const getVisiotr = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getVisiotrWithFilter = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield visitors_service_1.VisitorServices.getVisitorsWithFilterWithSearchIntoDB(req.query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Get filter visitors successfully!',
+        meta: result.meta,
+        data: result.result,
+    });
+}));
 exports.VisitorController = {
     getVisiotr,
+    getVisiotrWithFilter,
 };
