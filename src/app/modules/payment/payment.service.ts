@@ -95,7 +95,7 @@ const validatePaymentIntoDB = async (payload: any) => {
       },
     );
 
-    await await session.commitTransaction();
+    await session.commitTransaction();
     await session.endSession();
     return response;
   } catch (err) {
