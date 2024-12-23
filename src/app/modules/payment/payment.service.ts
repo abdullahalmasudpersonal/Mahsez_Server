@@ -83,17 +83,17 @@ const validatePaymentIntoDB = async (payload: any) => {
       { new: true },
     );
 
-    await Order.updateOne(
-      { orderId: updatePaymentStatus?.orderId },
-      {
-        $set: {
-          paymentStatus: 'PAID',
-          confirmOrder: true,
-          confirmOrderDate: new Date(),
-          orderStatus: 'Confirm',
-        },
-      },
-    );
+    // await Order.updateOne(
+    //   { orderId: updatePaymentStatus?.orderId },
+    //   {
+    //     $set: {
+    //       paymentStatus: 'PAID',
+    //       confirmOrder: true,
+    //       confirmOrderDate: new Date(),
+    //       orderStatus: 'Confirm',
+    //     },
+    //   },
+    // );
 
     await session.commitTransaction();
     await session.endSession();

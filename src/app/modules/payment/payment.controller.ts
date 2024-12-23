@@ -18,10 +18,9 @@ const initPayment = catchAsync(async (req: Request, res: Response) => {
 const validatePayment = catchAsync(async (req: Request, res: Response) => {
   const result = await PaymentServices.validatePaymentIntoDB(req.query);
   const { tran_id, amount } = result;
-  console.log(result, 'result');
-  res.redirect(
-    `http://localhost:5173/dashboard/payment-success?tran_id=${tran_id}&amount=${amount}`,
-  );
+  // res.redirect(
+  //   `https://mahsez.vercel.app/dashboard/payment-success?tran_id=${tran_id}&amount=${amount}`,
+  // );
   // sendResponse(res, {
   //   success: true,
   //   statusCode: httpStatus.OK,
