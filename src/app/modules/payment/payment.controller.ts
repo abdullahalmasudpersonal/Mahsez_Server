@@ -16,14 +16,19 @@ const initPayment = catchAsync(async (req: Request, res: Response) => {
 });
 
 const validatePayment = catchAsync(async (req: Request, res: Response) => {
-  console.log(req?.query);
   const result = await PaymentServices.validatePaymentIntoDB(req.query);
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'payment validate successfully',
-    data: result?.message,
-  });
+  const { tran_id, amount } = result;
+  console.log(result, 'result');
+  res.redirect(
+    `http://localhost:5173/dashboard/payment-success?tran_id=${tran_id}&amount=${amount}`,
+  );
+  // sendResponse(res, {
+  //   success: true,
+  //   statusCode: httpStatus.OK,
+  //   message: 'payment validate successfully',
+  //   data: result,
+  //   // data: result?.message,
+  // });
 });
 
 const getBuyerPayment = catchAsync(async (req: Request, res: Response) => {

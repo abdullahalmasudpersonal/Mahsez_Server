@@ -54,10 +54,21 @@ const updateOrderstatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getRevinew = catchAsync(async (req: Request, res: Response) => {
+  const result = await OrderServices.getRevinewIntoDB(req);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get revinew  Successfully',
+    data: result,
+  });
+});
+
 export const OrderController = {
   createOrder,
   getBuyerOrder,
   GetAllorder,
   GetSingleOrder,
   updateOrderstatus,
+  getRevinew,
 };

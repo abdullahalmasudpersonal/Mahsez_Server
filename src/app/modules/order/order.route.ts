@@ -24,6 +24,12 @@ router.get(
 );
 
 router.get(
+  '/revinew',
+  // auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  OrderController.getRevinew,
+);
+
+router.get(
   '/:id',
   auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.buyer),
   OrderController.GetSingleOrder,
