@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/init-payment/:orderId', PaymentController.initPayment);
 
-router.post('/success', PaymentController.validatePayment);
+// router.post('/success', PaymentController.validatePayment);
 
 // router.post('/success/:transactionId', PaymentController.validatePayment);
 

@@ -10,7 +10,7 @@ const initPayment = async (paymentData: IPaymentData) => {
       total_amount: paymentData?.amount,
       currency: 'BDT',
       tran_id: paymentData?.transactionId,
-      success_url: `${config.backend_url}/payment/success?tran_id=${paymentData?.transactionId}&amount=${paymentData?.amount}`,
+      success_url: `https://mahsez-server-cu30.onrender.com/api/v1/payment/success?tran_id=${paymentData?.transactionId}&amount=${paymentData?.amount}`,
       fail_url: config.ssl.ssl_fail_url,
       cancel_url: config.ssl.ssl_cancel_url,
       ipn_url: 'http://localhost:3030/ipn',
