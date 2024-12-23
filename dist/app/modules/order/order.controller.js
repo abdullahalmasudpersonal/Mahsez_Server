@@ -62,10 +62,20 @@ const updateOrderstatus = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
+const getRevinew = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_service_1.OrderServices.getRevinewIntoDB(req);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Get revinew  Successfully',
+        data: result,
+    });
+}));
 exports.OrderController = {
     createOrder,
     getBuyerOrder,
     GetAllorder,
     GetSingleOrder,
     updateOrderstatus,
+    getRevinew,
 };

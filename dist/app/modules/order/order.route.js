@@ -12,6 +12,9 @@ const router = (0, express_1.Router)();
 router.post('/create-order', (0, auth_1.default)(user_constant_1.USER_ROLE.buyer, user_constant_1.USER_ROLE.admin), order_controller_1.OrderController.createOrder);
 router.get('/buyer-order', (0, auth_1.default)(user_constant_1.USER_ROLE.buyer, user_constant_1.USER_ROLE.admin), order_controller_1.OrderController.getBuyerOrder);
 router.get('/', (0, auth_1.default)(user_constant_1.USER_ROLE.superAdmin, user_constant_1.USER_ROLE.admin), order_controller_1.OrderController.GetAllorder);
+router.get('/revinew', 
+// auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+order_controller_1.OrderController.getRevinew);
 router.get('/:id', (0, auth_1.default)(user_constant_1.USER_ROLE.superAdmin, user_constant_1.USER_ROLE.admin, user_constant_1.USER_ROLE.buyer), order_controller_1.OrderController.GetSingleOrder);
 router.patch('/update-status/:id', (0, auth_1.default)(user_constant_1.USER_ROLE.superAdmin, user_constant_1.USER_ROLE.admin), order_controller_1.OrderController.updateOrderstatus);
 exports.OrderRoutes = router;

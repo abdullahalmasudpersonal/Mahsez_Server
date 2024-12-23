@@ -28,14 +28,17 @@ const initPayment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const validatePayment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req === null || req === void 0 ? void 0 : req.query);
     const result = yield payment_service_1.PaymentServices.validatePaymentIntoDB(req.query);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: 'payment validate successfully',
-        data: result === null || result === void 0 ? void 0 : result.message,
-    });
+    const { tran_id, amount } = result;
+    console.log(result, 'result');
+    res.redirect(`http://localhost:5173/dashboard/payment-success?tran_id=${tran_id}&amount=${amount}`);
+    // sendResponse(res, {
+    //   success: true,
+    //   statusCode: httpStatus.OK,
+    //   message: 'payment validate successfully',
+    //   data: result,
+    //   // data: result?.message,
+    // });
 }));
 const getBuyerPayment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield payment_service_1.PaymentServices.getBuyerPaymentIntoDB(req);

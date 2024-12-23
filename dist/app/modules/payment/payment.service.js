@@ -86,12 +86,17 @@ const validatePaymentIntoDB = (payload) => __awaiter(void 0, void 0, void 0, fun
     try {
         session.startTransaction();
         const updatePaymentStatus = yield payment_model_1.Payment.findOneAndUpdate({ transactionId: response === null || response === void 0 ? void 0 : response.tran_id }, { $set: { paymentStatus: 'PAID', paymentGetwayData: response } }, { new: true });
-        yield order_model_1.Order.updateOne({ orderId: updatePaymentStatus === null || updatePaymentStatus === void 0 ? void 0 : updatePaymentStatus.orderId }, { $set: { paymentStatus: 'PAID' } });
+        yield order_model_1.Order.updateOne({ orderId: updatePaymentStatus === null || updatePaymentStatus === void 0 ? void 0 : updatePaymentStatus.orderId }, {
+            $set: {
+                paymentStatus: 'PAID',
+                confirmOrder: true,
+                confirmOrderDate: new Date(),
+                orderStatus: 'Confirm',
+            },
+        });
         yield session.commitTransaction();
         yield session.endSession();
-        return {
-            message: 'Payment Success',
-        };
+        return response;
     }
     catch (err) {
         console.log(err);
