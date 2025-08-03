@@ -74,8 +74,8 @@ const productSchema = new Schema<TProduct, ProductModel>(
       type: String,
       required: true,
     },
-    description2: {
-      type: [String],
+    warranty: {
+      type: String,
       required: false,
     },
     image: {

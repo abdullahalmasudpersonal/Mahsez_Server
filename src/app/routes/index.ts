@@ -8,6 +8,7 @@ import { PyamentRoutes } from '../modules/payment/payment.route';
 import { BuyerRoutes } from '../modules/buyer/buyer.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { visitorRoutes } from '../modules/visitors/visiotrs.routes';
+import { ReviewRoutes } from '../modules/review/review.route';
 
 const router = Router();
 
@@ -43,6 +44,10 @@ const moduleRoutes = [
   {
     path: '/buyer',
     route: BuyerRoutes,
+  },
+  {
+    path: '/review',
+    route: ReviewRoutes,
   },
   {
     path: '/visitor',

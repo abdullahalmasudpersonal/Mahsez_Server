@@ -18,7 +18,7 @@ export type TProduct = {
   features: string;
   features2?: string[];
   description: string;
-  description2?: string[];
+  warranty?: string;
   image?: string[];
   soldQuantity?: number;
   prodCreator: string;
