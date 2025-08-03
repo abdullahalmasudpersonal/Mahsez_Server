@@ -31,11 +31,41 @@ const loginUserIntoDB = async (req: Request) => {
   if (!(await User.isPasswordMatched(payload?.password, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password is incorrect!');
 
-  const jwtPayload = {
-    userId: user.id,
-    email: user.email,
-    role: user.role,
+  let jwtPayload: {
+    userId: string;
+    role: string;
+    email?: string;
+    buyer?: any;
+    admin?: any;
   };
+
+  if (user.role === 'buyer') {
+    const buyer = await Buyer.findOne({ user: user?._id });
+    jwtPayload = {
+      buyer:buyer?._id,
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+  } else if (user.role === 'admin') {
+    const admin = await Admin.findOne({ user: user?._id });
+    jwtPayload = {
+      admin:admin?._id,
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+  } else if (user.role === 'superAdmin') {
+    const admin = await Admin.findOne({ user: user?._id });
+    jwtPayload = {
+      admin:admin?._id,
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+  } else {
+    throw new Error('Invalid role');
+  }
 
   const accessToken = createToken(
     jwtPayload,
