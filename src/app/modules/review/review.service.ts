@@ -11,7 +11,6 @@ const createReviewIntoDB = async (req: Request) => {
   const buyer = req?.user?.buyer;
   const reviewId = await generateReviewId();
 
-  //////////// Upload moultile file
   const files = req.files as unknown;
   let uploadFiles: IUploadFile[] = [];
 
@@ -40,6 +39,14 @@ const createReviewIntoDB = async (req: Request) => {
   }
 };
 
+const getSingeProductReviewIntoDB  = async(req:Request)=> {
+  const productId = req.params.id;
+  const res = await Review.find({productId})
+  console.log('res',res,)
+  return res;
+}
+
 export const ReviewService = {
   createReviewIntoDB,
+  getSingeProductReviewIntoDB
 };

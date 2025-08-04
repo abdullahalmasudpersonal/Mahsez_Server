@@ -13,7 +13,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const setVisitorCookie_1 = require("./app/middlewares/setVisitorCookie");
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['https://mahsez.vercel.app', 'http://localhost:5173'],
+    origin: ['https://mahsez.vercel.app', 'http://localhost:5173', 'http://192.168.0.103:5173'],
     // methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     credentials: true,
 };

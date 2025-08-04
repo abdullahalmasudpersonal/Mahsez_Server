@@ -37,11 +37,37 @@ const loginUserIntoDB = (req) => __awaiter(void 0, void 0, void 0, function* () 
     }
     if (!(yield user_model_1.User.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password)))
         throw new AppError_1.default(http_status_1.default.FORBIDDEN, 'Password is incorrect!');
-    const jwtPayload = {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-    };
+    let jwtPayload;
+    if (user.role === 'buyer') {
+        const buyer = yield buyer_model_1.Buyer.findOne({ user: user === null || user === void 0 ? void 0 : user._id });
+        jwtPayload = {
+            buyer: buyer === null || buyer === void 0 ? void 0 : buyer._id,
+            userId: user.id,
+            email: user.email,
+            role: user.role,
+        };
+    }
+    else if (user.role === 'admin') {
+        const admin = yield admin_model_1.Admin.findOne({ user: user === null || user === void 0 ? void 0 : user._id });
+        jwtPayload = {
+            admin: admin === null || admin === void 0 ? void 0 : admin._id,
+            userId: user.id,
+            email: user.email,
+            role: user.role,
+        };
+    }
+    else if (user.role === 'superAdmin') {
+        const admin = yield admin_model_1.Admin.findOne({ user: user === null || user === void 0 ? void 0 : user._id });
+        jwtPayload = {
+            admin: admin === null || admin === void 0 ? void 0 : admin._id,
+            userId: user.id,
+            email: user.email,
+            role: user.role,
+        };
+    }
+    else {
+        throw new Error('Invalid role');
+    }
     const accessToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_token, config_1.default.jwt_access_token_expires_in);
     const refreshToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_refresh_token, config_1.default.jwt_refresh_token_expires_in);
     if (user.role === 'buyer') {

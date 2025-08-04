@@ -15,6 +15,18 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingeProductReview = catchAsync(async (req: Request, res: Response) => {
+  const result = await ReviewService.getSingeProductReviewIntoDB(req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get Single Product Review  Successfully',
+    data: result,
+  });
+});
+
 export const ReviewController = {
   createReview,
+  getSingeProductReview
 };

@@ -83,8 +83,8 @@ const productSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    description2: {
-        type: [String],
+    warranty: {
+        type: String,
         required: false,
     },
     image: {

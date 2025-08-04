@@ -15,5 +15,6 @@ router.post(
     return ReviewController.createReview(req, res, next);
   },
 );
+router.get('/single-product-review/:id', ReviewController.getSingeProductReview);
 
 export const ReviewRoutes = router;
