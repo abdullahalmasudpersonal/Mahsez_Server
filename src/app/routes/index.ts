@@ -8,7 +8,8 @@ import { PyamentRoutes } from '../modules/payment/payment.route';
 import { BuyerRoutes } from '../modules/buyer/buyer.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { visitorRoutes } from '../modules/visitors/visiotrs.routes';
-import { ReviewRoutes } from '../modules/review/review.route';
+import { ReviewRoutes } from '../modules/reviews/review.route';
+
 
 const router = Router();
 

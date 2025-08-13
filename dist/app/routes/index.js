@@ -10,7 +10,7 @@ const payment_route_1 = require("../modules/payment/payment.route");
 const buyer_route_1 = require("../modules/buyer/buyer.route");
 const admin_route_1 = require("../modules/admin/admin.route");
 const visiotrs_routes_1 = require("../modules/visitors/visiotrs.routes");
-const review_route_1 = require("../modules/review/review.route");
+const review_route_1 = require("../modules/reviews/review.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {

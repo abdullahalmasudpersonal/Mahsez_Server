@@ -39,14 +39,13 @@ const createReviewIntoDB = async (req: Request) => {
   }
 };
 
-const getSingeProductReviewIntoDB  = async(req:Request)=> {
+const getSingeProductReviewIntoDB = async (req: Request) => {
   const productId = req.params.id;
-  const res = await Review.find({productId})
-  console.log('res',res,)
+  const res = await Review.find({ productId });
   return res;
-}
+};
 
 export const ReviewService = {
   createReviewIntoDB,
-  getSingeProductReviewIntoDB
+  getSingeProductReviewIntoDB,
 };
