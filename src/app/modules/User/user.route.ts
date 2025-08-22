@@ -8,7 +8,15 @@ const router = Router();
 
 router.post('/create-buyer', UserController.createBuyer);
 
-router.post('/create-admin', UserController.createAdmin);
+router.post(
+  '/create-admin',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  FileUploadHelper.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req?.body?.data);
+    return UserController.createAdmin(req, res, next);
+  },
+);
 
 router.get(
   '/me',

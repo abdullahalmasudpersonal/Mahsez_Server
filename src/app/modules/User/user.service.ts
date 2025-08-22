@@ -10,6 +10,7 @@ import { Admin } from '../admin/admin.model';
 import { Request } from 'express';
 import { IUploadFile } from '../../interface/file';
 import { USER_ROLE } from './user.constant';
+import { TAdmin } from '../admin/admin.interface';
 
 const createBuyerIntoDB = async (password: string, payload: TBuyer) => {
   const existsUser = await User.findOne({ email: payload?.email });
@@ -51,33 +52,48 @@ const createBuyerIntoDB = async (password: string, payload: TBuyer) => {
   }
 };
 
-const createAdminIntoDB = async (password: string, payload: TBuyer) => {
-  const existsUser = await User.findOne({ email: payload?.email });
-
+const createAdminIntoDB = async (req: Request) => {
+  const adminData: Partial<TAdmin> = {
+    email: req?.body?.admin?.email,
+    name: req?.body?.admin?.name,
+    gender: req?.body?.admin?.gender,
+    contactNo: req?.body?.admin?.contactNo,
+    companyName: req?.body?.admin?.companyName,
+    city: req?.body?.admin?.city,
+    postCode: req?.body?.admin?.postCode,
+    presentAddress: req?.body?.admin?.presentAddress,
+    permanentAddress: req?.body?.admin?.permanentAddress,
+    onlineStatus: req?.body?.admin?.onlineStatus,
+  };
+  const existsUser = await User.findOne({ email: req?.body?.admin?.email });
   if (existsUser) {
     throw new AppError(409, 'User Alrady Exists!');
+  }
+
+  const file = req.file as IUploadFile;
+  if (file) {
+    adminData.profileImg = file?.path;
   }
 
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
+
     const userData: Partial<TUser> = {};
-
     userData.id = await generateAdminId();
-    userData.email = payload?.email;
-    userData.password = password;
+    userData.email = req?.body?.admin?.email;
+    userData.password = req?.body?.password;
     userData.role = 'admin';
-
     const createNewUser = await User.create([userData], { session });
 
     if (!createNewUser?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
     }
 
-    payload.id = createNewUser[0].id;
-    payload.user = createNewUser[0]._id;
+    adminData.id = createNewUser[0].id;
+    adminData.user = createNewUser[0]._id;
 
-    const createNewAdmin = await Admin.create([payload], { session });
+    const createNewAdmin = await Admin.create([adminData], { session });
 
     if (!createNewAdmin.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
@@ -86,9 +102,47 @@ const createAdminIntoDB = async (password: string, payload: TBuyer) => {
     await session.commitTransaction();
     await session.endSession();
     return createNewAdmin;
-  } catch (err: any) {
-    throw new Error(err);
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
   }
+
+  // const existsUser = await User.findOne({ email: payload?.email });
+  // if (existsUser) {
+  //   throw new AppError(409, 'User Alrady Exists!');
+  // }
+
+  // const session = await mongoose.startSession();
+  // try {
+  //   session.startTransaction();
+  //   const userData: Partial<TUser> = {};
+
+  //   userData.id = await generateAdminId();
+  //   userData.email = payload?.email;
+  //   userData.password = password;
+  //   userData.role = 'admin';
+
+  //   const createNewUser = await User.create([userData], { session });
+
+  //   if (!createNewUser?.length) {
+  //     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
+  //   }
+
+  //   payload.id = createNewUser[0].id;
+  //   payload.user = createNewUser[0]._id;
+
+  //   const createNewAdmin = await Admin.create([payload], { session });
+
+  //   if (!createNewAdmin.length) {
+  //     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create admin');
+  //   }
+
+  //   await session.commitTransaction();
+  //   await session.endSession();
+  //   return createNewAdmin;
+  // } catch (err: any) {
+  //   throw new Error(err);
+  // }
 };
 
 const getMeIntoDB = async (userId: string, role: string) => {

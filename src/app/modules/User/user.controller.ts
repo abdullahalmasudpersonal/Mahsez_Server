@@ -20,11 +20,12 @@ const createBuyer = catchAsync(async (req, res) => {
 });
 
 const createAdmin = catchAsync(async (req, res) => {
-  const adminData = req?.body?.admin;
-  const result = await UserServices.createAdminIntoDB(
-    req?.body?.password,
-    adminData,
-  );
+  // const adminData = req?.body?.admin;
+  // const result = await UserServices.createAdminIntoDB(
+  //   req?.body?.password,
+  //   adminData,
+  // );
+  const result = await UserServices.createAdminIntoDB(req);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
