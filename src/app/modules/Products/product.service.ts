@@ -21,14 +21,7 @@ const createProductIntoDB = async (req: Request) => {
   }
 
   //////////// Upload moultile file
-  const files = req.files as unknown;
-  let uploadFiles: IUploadFile[] = [];
-
-  if (Array.isArray(files)) {
-    uploadFiles = files as IUploadFile[];
-  } else if (files && typeof files === 'object') {
-    uploadFiles = Object.values(files).flat() as IUploadFile[];
-  }
+  const files = req.files as IUploadFile[];
 
   productData.productId = produtId;
   productData.prodCreator = prodCreator;
@@ -36,10 +29,8 @@ const createProductIntoDB = async (req: Request) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    if (uploadFiles) {
-      const uploadedProfileImage =
-        await FileUploadHelper.uploadToCloudinary(uploadFiles);
-      req.body.image = uploadedProfileImage.map((img) => img.secure_url);
+    if (files) {
+      req.body.image = files.map((img) => img.path);
     }
     const newProdcut = await Product.create([productData], { session });
     if (!newProdcut?.length) {
@@ -85,11 +76,9 @@ const getSingleProductIntoDB = async (req: Request) => {
 const updateProductIntoDB = async (req: Request) => {
   const productId = req.params.id;
   const updateData = JSON.parse(req.body.data);
+  const newFiles = req?.files as IUploadFile[];
   let existingFiles = req.body.existingFiles || [];
-  const newFiles = req.files as unknown;
-  let uploadFiles: IUploadFile[] = [];
 
-  /// convert array when single existing File
   if (!Array.isArray(existingFiles)) {
     if (typeof existingFiles === 'string') {
       existingFiles = [existingFiles];
@@ -98,18 +87,10 @@ const updateProductIntoDB = async (req: Request) => {
     }
   }
 
-  if (Array.isArray(newFiles)) {
-    uploadFiles = newFiles as IUploadFile[];
-  } else if (newFiles && typeof newFiles === 'object') {
-    uploadFiles = Object.values(newFiles).flat() as IUploadFile[];
-  }
-
-  if (uploadFiles.length > 0) {
-    const uploadedImages =
-      await FileUploadHelper.uploadToCloudinary(uploadFiles);
-    const newImageURLs = uploadedImages.map((img) => img.secure_url);
-
-    updateData.image = [...existingFiles, ...newImageURLs];
+  if (newFiles?.length > 0) {
+    const img = newFiles.map((img) => img.path);
+    console.log(img, 'new files');
+    updateData.image = [...existingFiles, ...img];
   } else {
     updateData.image = existingFiles;
   }
