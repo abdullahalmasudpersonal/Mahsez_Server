@@ -19,10 +19,12 @@ const storage = new CloudinaryStorage({
 
     if (req.originalUrl.includes('product')) {
       base = 'mahsez/product';
-    } else if (req.originalUrl.includes('skill')) {
-      base = 'mahsez/skills';
-    } else if (req.originalUrl.includes('project')) {
-      base = `mahsez/projects`;
+    } else if (req.originalUrl.includes('user')) {
+      base = 'mahsez/user';
+    } else if (req.originalUrl.includes('blog')) {
+      base = `mahsez/blog`;
+    }else{
+      base = 'mahsez/other';
     }
 
     const fileName = file.originalname
@@ -73,7 +75,7 @@ const uploadToCloudinary = async (
 };
 
 export const FileUploadHelper = {
-  uploadToCloudinary,
+  // uploadToCloudinary,
   upload,
 };
 

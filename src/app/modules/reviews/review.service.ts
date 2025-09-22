@@ -11,24 +11,24 @@ const createReviewIntoDB = async (req: Request) => {
   const buyer = req?.user?.buyer;
   const reviewId = await generateReviewId();
 
-  const files = req.files as unknown;
-  let uploadFiles: IUploadFile[] = [];
+  // const files = req.files as unknown;
+  // let uploadFiles: IUploadFile[] = [];
 
-  if (Array.isArray(files)) {
-    uploadFiles = files as IUploadFile[];
-  } else if (files && typeof files === 'object') {
-    uploadFiles = Object.values(files).flat() as IUploadFile[];
-  }
+  // if (Array.isArray(files)) {
+  //   uploadFiles = files as IUploadFile[];
+  // } else if (files && typeof files === 'object') {
+  //   uploadFiles = Object.values(files).flat() as IUploadFile[];
+  // }
 
   reviewData.buyer = buyer;
   reviewData.reviewId = reviewId;
 
   try {
-    if (uploadFiles) {
-      const uploadedProfileImage =
-        await FileUploadHelper.uploadToCloudinary(uploadFiles);
-      req.body.image = uploadedProfileImage.map((img) => img.secure_url);
-    }
+    // if (uploadFiles) {
+    //   const uploadedProfileImage =
+    //     await FileUploadHelper.uploadToCloudinary(uploadFiles);
+    //   req.body.image = uploadedProfileImage.map((img) => img.secure_url);
+    // }
     const newReview = await Review.create([reviewData]);
     if (!newReview?.length) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create Product!');
